@@ -1,0 +1,100 @@
+<?php
+
+use App\Http\Controllers\ProfileController;
+
+use Illuminate\Support\Facades\Route;
+
+use App\Http\Controllers\DashboardController;
+
+
+
+Route::get('/', function () {
+
+    return view('welcome');
+
+});
+
+
+
+Route::get('/dashboard', [DashboardController::class, 'index'])
+
+    ->middleware(['auth', 'verified'])
+
+    ->name('dashboard');
+
+
+
+// Incident Management Routes
+Route::middleware(['auth', 'verified'])->group(function () {
+    Route::get('/incidents', App\Livewire\IncidentList::class)
+        ->middleware('can:view all incidents')
+        ->name('incidents.index');
+    Route::get('/incidents/create', App\Livewire\IncidentCreate::class)
+        ->middleware('can:create incident')
+        ->name('incidents.create');
+    Route::get('/incidents/{incident}', App\Livewire\IncidentShow::class)
+        ->middleware('can:view all incidents') // Or a more specific 'view incident'
+        ->name('incidents.show');
+    Route::get('/incidents/{incident}/edit', App\Livewire\IncidentEdit::class)
+        ->middleware('can:edit incident')
+        ->name('incidents.edit');
+});
+
+// CAPA (Actions) Management Routes
+Route::middleware(['auth', 'verified'])->group(function () {
+    Route::get('/actions', App\Livewire\ActionList::class)
+        ->middleware('can:manage actions')
+        ->name('actions.index');
+    Route::get('/actions/create', App\Livewire\ActionCreate::class)
+        ->middleware('can:manage actions')
+        ->name('actions.create');
+    Route::get('/actions/{action}', App\Livewire\ActionShow::class)
+        ->middleware('can:manage actions')
+        ->name('actions.show');
+    Route::get('/actions/{action}/edit', App\Livewire\ActionEdit::class)
+        ->middleware('can:manage actions')
+        ->name('actions.edit');
+});
+
+// Audits & Inspections Management Routes
+Route::middleware(['auth', 'verified'])->group(function () {
+    Route::get('/audits', App\Livewire\AuditList::class)
+        ->middleware('can:view all audits')
+        ->name('audits.index');
+    Route::get('/audits/create', App\Livewire\AuditCreate::class)
+        ->middleware('can:create audit')
+        ->name('audits.create');
+    Route::get('/audits/{audit}', App\Livewire\AuditShow::class)
+        ->middleware('can:view all audits') // Or a more specific 'view audit'
+        ->name('audits.show');
+    Route::get('/audits/{audit}/edit', App\Livewire\AuditEdit::class)
+        ->middleware('can:edit audit')
+        ->name('audits.edit');
+});
+
+// Document Control Management Routes
+Route::middleware(['auth', 'verified'])->group(function () {
+    Route::get('/documents', App\Livewire\DocumentList::class)
+        ->middleware('can:view all documents')
+        ->name('documents.index');
+    Route::get('/documents/create', App\Livewire\DocumentCreate::class)
+        ->middleware('can:create document')
+        ->name('documents.create');
+    Route::get('/documents/{document}', App\Livewire\DocumentShow::class)
+        ->middleware('can:view all documents') // Or a more specific 'view document'
+        ->name('documents.show');
+    Route::get('/documents/{document}/edit', App\Livewire\DocumentEdit::class)
+        ->middleware('can:edit document')
+        ->name('documents.edit');
+    Route::get('/documents/{document}/download', [App\Livewire\DocumentShow::class, 'download'])
+        ->middleware('can:view all documents') // Or a more specific 'download document'
+        ->name('documents.download');
+});
+
+Route::middleware('auth')->group(function () {
+    Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
+    Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
+    Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
+});
+
+require __DIR__.'/auth.php';
