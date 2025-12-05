@@ -1,7 +1,7 @@
 <div>
     <x-slot name="header">
         <h2 class="font-semibold text-xl text-gray-800 dark:text-gray-200 leading-tight">
-            Detail Pelanggaran Driver
+            Detail Driver
         </h2>
     </x-slot>
 
@@ -47,7 +47,7 @@
                                 <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">Kategori Pelanggaran</th>
                                 <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">Lokasi</th>
                                 <th scope="col" class="relative px-6 py-3">
-                                    <span class="sr-only">Edit</span>
+                                    <span class="sr-only">Detail</span>
                                 </th>
                             </tr>
                         </thead>
@@ -59,7 +59,7 @@
                                     <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900 dark:text-gray-100">{{ $violation->rule_broken }}</td>
                                     <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900 dark:text-gray-100">{{ $violation->location }}</td>
                                     <td class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
-                                        <a href="{{ route('violations.edit', $violation) }}" class="text-indigo-600 hover:text-indigo-900 dark:text-indigo-400 dark:hover:text-indigo-600">Edit</a>
+                                        <a href="{{ route('violations.edit', $violation) }}" class="text-indigo-600 hover:text-indigo-900 dark:text-indigo-400 dark:hover:text-indigo-600">Detail</a>
                                     </td>
                                 </tr>
                             @empty
@@ -73,14 +73,58 @@
                     </table>
                 </div>
                  <div class="mt-4">
-                    {{ $violations->links() }}
+                    {{ $violations->links('vendor.pagination.tailwind', ['pageName' => 'violationsPage']) }}
+                </div>
+            </div>
+
+            {{-- Accidents Table --}}
+            <div class="p-4 sm:p-8 bg-white dark:bg-qhse-neutral-dark shadow sm:rounded-lg">
+                <h3 class="text-lg font-medium text-gray-900 dark:text-gray-100 mb-4">
+                    Riwayat Kecelakaan
+                </h3>
+                <div class="overflow-x-auto">
+                    <table class="min-w-full divide-y divide-gray-200 dark:divide-gray-700">
+                        <thead class="bg-gray-50 dark:bg-gray-700">
+                            <tr>
+                                <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">No</th>
+                                <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">Tanggal</th>
+                                <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">Lokasi</th>
+                                <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">Kerugian Finansial</th>
+                                <th scope="col" class="relative px-6 py-3">
+                                    <span class="sr-only">Detail</span>
+                                </th>
+                            </tr>
+                        </thead>
+                        <tbody class="bg-white dark:bg-gray-800 divide-y divide-gray-200 dark:divide-gray-700">
+                            @forelse ($accidents as $index => $accident)
+                                <tr class="hover:bg-gray-50 dark:hover:bg-gray-600">
+                                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500 dark:text-gray-400">{{ $accidents->firstItem() + $index }}</td>
+                                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900 dark:text-gray-100">{{ \Carbon\Carbon::parse($accident->accident_date)->isoFormat('D MMM YYYY') }}</td>
+                                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900 dark:text-gray-100">{{ $accident->location }}</td>
+                                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900 dark:text-gray-100">Rp {{ number_format($accident->financial_loss, 2, ',', '.') }}</td>
+                                    <td class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
+                                        <a href="{{ route('accidents.show', $accident) }}" class="text-indigo-600 hover:text-indigo-900 dark:text-indigo-400 dark:hover:text-indigo-600">Detail</a>
+                                    </td>
+                                </tr>
+                            @empty
+                                <tr>
+                                    <td colspan="5" class="px-6 py-12 text-center text-sm text-gray-500 dark:text-gray-400">
+                                        Tidak ada riwayat kecelakaan untuk driver ini.
+                                    </td>
+                                </tr>
+                            @endforelse
+                        </tbody>
+                    </table>
+                </div>
+                 <div class="mt-4">
+                    {{ $accidents->links('vendor.pagination.tailwind', ['pageName' => 'accidentsPage']) }}
                 </div>
             </div>
 
             <div class="flex items-center justify-start mt-6">
                 <a href="{{ route('violations.index') }}"
-                    class="px-4 py-2 text-sm text-gray-700 dark:text-gray-300 
-                           bg-gray-200 dark:bg-gray-600 
+                    class="px-4 py-2 text-sm text-gray-700 dark:text-gray-300
+                           bg-gray-200 dark:bg-gray-600
                            rounded-md hover:bg-gray-300 dark:hover:bg-gray-500 transition">
                     &larr; Kembali ke Daftar
                 </a>

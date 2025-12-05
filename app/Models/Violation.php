@@ -4,18 +4,20 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\MorphTo;
 
 class Violation extends Model
 {
     use HasFactory;
-    
+
     /**
      * The attributes that are mass assignable.
      *
      * @var array<int, string>
      */
     protected $fillable = [
-        'user_id',
+        'violator_id',
+        'violator_type',
         'location',
         'violation_date',
         'description',
@@ -23,10 +25,10 @@ class Violation extends Model
     ];
 
     /**
-     * Get the user that owns the violation.
+     * Get the parent violator model (can be a User or a Driver).
      */
-    public function user()
+    public function violator(): MorphTo
     {
-        return $this->belongsTo(User::class);
+        return $this->morphTo();
     }
 }

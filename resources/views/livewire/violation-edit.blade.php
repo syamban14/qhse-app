@@ -17,11 +17,11 @@
                     <div class="mt-4 space-y-2">
                         <div>
                             <span class="text-sm font-semibold text-gray-600 dark:text-gray-400">Nama Driver:</span>
-                            <span class="ml-2 text-gray-800 dark:text-gray-100">{{ $violation->user->karyawan->nama_karyawan ?? 'N/A' }}</span>
+                            <span class="ml-2 text-gray-800 dark:text-gray-100">{{ $violatorName ?? 'N/A' }}</span>
                         </div>
                         <div>
                             <span class="text-sm font-semibold text-gray-600 dark:text-gray-400">Payroll ID:</span>
-                            <span class="ml-2 text-gray-800 dark:text-gray-100">{{ $violation->user->karyawan->payroll_id ?? 'N/A' }}</span>
+                            <span class="ml-2 text-gray-800 dark:text-gray-100">{{ $violatorPayrollId ?? 'N/A' }}</span>
                         </div>
                     </div>
                 </div>
@@ -72,13 +72,15 @@
 
                         {{-- Tombol --}}
                         <div class="flex items-center justify-end space-x-3 mt-8 border-t border-gray-200 dark:border-gray-700 pt-6">
-                            <a href="{{ route('violations.show.driver', ['driver' => $violation->user->karyawan->driver->id]) }}" wire:navigate
+                            @if($driverId)
+                            <a href="{{ route('violations.show.driver', ['driver' => $driverId]) }}" wire:navigate
                                 class="px-4 py-2 text-sm text-gray-700 dark:text-gray-300 
                                     bg-gray-100 dark:bg-gray-700 
                                     rounded-md hover:bg-gray-200 dark:hover:bg-gray-600 
                                     transition">
                                 Batal
                             </a>
+                            @endif
 
                             <x-primary-button>
                                 Simpan Perubahan
