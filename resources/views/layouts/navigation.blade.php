@@ -141,8 +141,15 @@
             <div class="hidden sm:flex sm:items-center sm:ms-6">
                 <x-dropdown align="right" width="48">
                     <x-slot name="trigger">
-                        <button class="inline-flex items-center px-3 py-2 border border-transparent text-sm leading-4 font-medium rounded-md text-qhse-neutral-dark dark:text-qhse-neutral-light bg-qhse-neutral-light dark:bg-qhse-neutral-dark hover:text-qhse-primary dark:hover:text-qhse-secondary focus:outline-none transition ease-in-out duration-150">
+                        <button class="relative inline-flex items-center px-3 py-2 border border-transparent text-sm leading-4 font-medium rounded-md text-qhse-neutral-dark dark:text-qhse-neutral-light bg-qhse-neutral-light dark:bg-qhse-neutral-dark hover:text-qhse-primary dark:hover:text-qhse-secondary focus:outline-none transition ease-in-out duration-150">
                             <div>{{ Auth::user()->name }}</div>
+
+                            @if($unreadNotificationsCount > 0)
+                                <span class="absolute top-1 right-1 flex h-2 w-2">
+                                    <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-red-400 opacity-75"></span>
+                                    <span class="relative inline-flex rounded-full h-2 w-2 bg-red-500"></span>
+                                </span>
+                            @endif
 
                             <div class="ms-1">
                                 <svg class="fill-current h-4 w-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20">
@@ -154,7 +161,12 @@
 
                     <x-slot name="content">
                         <x-dropdown-link :href="route('inbox.index')">
-                            {{ __('Inbox') }}
+                            <div class="flex justify-between items-center">
+                                <span>{{ __('Inbox') }}</span>
+                                @if($unreadNotificationsCount > 0)
+                                    <span class="ms-2 inline-flex items-center justify-center px-2 py-1 text-xs font-bold leading-none text-red-100 bg-red-600 rounded-full">{{ $unreadNotificationsCount }}</span>
+                                @endif
+                            </div>
                         </x-dropdown-link>
                         @can('manage users')
                             <x-dropdown-link :href="route('users.index')">
