@@ -153,9 +153,15 @@
                     </x-slot>
 
                     <x-slot name="content">
+                        <x-dropdown-link :href="route('inbox.index')">
+                            {{ __('Inbox') }}
+                        </x-dropdown-link>
                         @can('manage users')
                             <x-dropdown-link :href="route('users.index')">
                                 {{ __('Manajemen Pengguna') }}
+                            </x-dropdown-link>
+                            <x-dropdown-link :href="route('announcements.create')">
+                                {{ __('Buat Pengumuman') }}
                             </x-dropdown-link>
                         @endcan
                         <x-dropdown-link :href="route('profile.edit')">
@@ -293,9 +299,15 @@
             </div>
 
             <div class="mt-3 space-y-1">
+                <x-responsive-nav-link :href="route('inbox.index')">
+                    {{ __('Inbox') }}
+                </x-responsive-nav-link>
                 @can('manage users')
                     <x-responsive-nav-link :href="route('users.index')">
                         {{ __('Manajemen Pengguna') }}
+                    </x-responsive-nav-link>
+                    <x-responsive-nav-link :href="route('announcements.create')">
+                        {{ __('Buat Pengumuman') }}
                     </x-responsive-nav-link>
                 @endcan
                 <x-responsive-nav-link :href="route('profile.edit')">
@@ -316,3 +328,4 @@
         </div>
     </div>
 </nav>
+
