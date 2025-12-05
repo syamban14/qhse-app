@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Incident;
 use App\Models\Action;
+use App\Models\SafetyTip;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Carbon\Carbon;
@@ -19,20 +20,9 @@ class PublicDashboardController extends Controller
         $closedActions = Action::where('status', 'closed')->count();
         $safetyObservations = 0; // Placeholder for Leading Indicator
 
-        // Safety Tip
-        $safetyTips = [
-            "Selalu gunakan alat pelindung diri (APD) yang sesuai untuk pekerjaan Anda.",
-            "Pastikan area kerja Anda bersih dan terorganisir untuk mencegah kecelakaan.",
-            "Laporkan setiap kondisi tidak aman atau nyaris celaka kepada atasan Anda.",
-            "Ikuti semua prosedur keselamatan dan operasional standar (SOP).",
-            "Lakukan pemeliharaan rutin pada peralatan untuk memastikan fungsinya optimal.",
-            "Berhati-hatilah saat mengangkat benda berat, gunakan teknik yang benar.",
-            "Jangan pernah mengambil jalan pintas dalam prosedur keselamatan.",
-            "Pahami rute evakuasi darurat dan lokasi titik kumpul.",
-            "Jaga komunikasi yang baik dengan rekan kerja untuk koordinasi keselamatan.",
-            "Periksa label bahan kimia sebelum menggunakannya dan pahami penanganannya.",
-        ];
-        $randomSafetyTip = Arr::random($safetyTips);
+        // Safety Tip from Database
+        $safetyTip = SafetyTip::where('is_active', true)->inRandomOrder()->first();
+        $randomSafetyTip = $safetyTip ? $safetyTip->content : 'Selamat datang di dasbor QHSE. Pastikan untuk selalu memprioritaskan keselamatan.';
 
         // Data for Incidents per Month Chart (Last 12 Months)
         $incidentsByMonth = Incident::select(

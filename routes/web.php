@@ -32,6 +32,7 @@ use App\Livewire\Master\UnitPage;
 use App\Livewire\Master\DriverPage;
 use App\Livewire\UserManagementPage;
 use App\Livewire\CreateAnnouncement;
+use App\Livewire\SafetyTipManagement;
 
 // Placeholder for Manajemen Risiko Livewire Components
 // use App\Livewire\ManajemenRisiko\TrainingList;
@@ -176,6 +177,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
 Route::middleware('auth')->group(function () {
     Route::get('/inbox', InboxList::class)->name('inbox.index');
     Route::get('/announcements/create', CreateAnnouncement::class)->name('announcements.create')->middleware('can:manage users');
+    Route::get('/safety-tips', SafetyTipManagement::class)->name('safety-tips.index')->middleware('can:manage users');
     Route::get('/users', UserManagementPage::class)->name('users.index')->middleware('can:manage users');
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
