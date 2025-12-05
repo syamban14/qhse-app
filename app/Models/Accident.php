@@ -43,6 +43,7 @@ class Accident extends Model
         'financial_loss' => 'decimal:2',
         'injured_body_parts' => 'array',
         'accident_types' => 'array',
+        'penyebab_dasar' => 'array',
     ];
 
     public function getUserAttribute()

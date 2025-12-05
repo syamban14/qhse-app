@@ -26,7 +26,7 @@ class AccidentCreate extends Component
     public $consequence;
 
     // Analysis Fields
-    public $penyebab_dasar = '';
+    public $penyebab_dasar = [];
     public $penjelasan_penyebab_dasar = '';
     public $penyebab_langsung = '';
     public $kondisi_tidak_aman = '';
@@ -192,7 +192,7 @@ class AccidentCreate extends Component
         'photo_path' => 'nullable|image|max:1024', // Max 1MB
 
         // Validation for analysis fields
-        'penyebab_dasar' => 'nullable|string',
+        'penyebab_dasar' => 'nullable|array',
         'penjelasan_penyebab_dasar' => 'nullable|string',
         'penyebab_langsung' => 'nullable|string',
         'kondisi_tidak_aman' => 'nullable|string',
@@ -232,8 +232,8 @@ class AccidentCreate extends Component
             // Analysis fields
             'penyebab_dasar' => $this->penyebab_dasar,
             'penjelasan_penyebab_dasar' => $this->penjelasan_penyebab_dasar,
-            'penyebab_langsung' => 'penyebab_langsung',
-            'kondisi_tidak_aman' => 'kondisi_tidak_aman',
+            'penyebab_langsung' => $this->penyebab_langsung,
+            'kondisi_tidak_aman' => $this->kondisi_tidak_aman,
             'kesimpulan' => $this->kesimpulan,
         ]);
 

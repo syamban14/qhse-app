@@ -148,19 +148,22 @@
                                 </div>
                                 
                                 <div class="md:col-span-2">
-                                    <x-input-label for="penyebab_dasar" :value="__('Penyebab Dasar')" />
-                                    <select wire:model.live="penyebab_dasar" id="penyebab_dasar" class="block mt-1 w-full border-gray-300 dark:border-gray-700 dark:bg-gray-900 dark:text-gray-300 focus:border-indigo-500 dark:focus:border-indigo-600 focus:ring-indigo-500 dark:focus:ring-indigo-600 rounded-md shadow-sm">
-                                        <option value="">-- Pilih Penyebab --</option>
-                                        <option value="Manusia">Manusia</option>
-                                        <option value="Alat">Alat</option>
-                                        <option value="Material">Material</option>
-                                        <option value="Metode">Metode</option>
-                                        <option value="Lingkungan">Lingkungan</option>
-                                    </select>
-                                    @error('penyebab_dasar') <span class="text-red-500 text-sm">{{ $message }}</span> @enderror
+                                    <x-input-label :value="__('Penyebab Dasar')" />
+                                    <div class="mt-2 grid grid-cols-2 md:grid-cols-3 gap-2 border border-gray-300 dark:border-gray-600 p-4 rounded-md">
+                                        @php
+                                            $penyebabDasarOptions = ['Manusia', 'Alat', 'Material', 'Metode', 'Lingkungan'];
+                                        @endphp
+                                        @foreach($penyebabDasarOptions as $option)
+                                            <label for="penyebab_dasar_{{ Str::slug($option) }}" class="flex items-center">
+                                                <input type="checkbox" wire:model.live="penyebab_dasar" id="penyebab_dasar_{{ Str::slug($option) }}" value="{{ $option }}" class="rounded dark:bg-gray-900 border-gray-300 dark:border-gray-700 text-indigo-600 shadow-sm focus:ring-indigo-500 dark:focus:ring-indigo-600 dark:focus:ring-offset-gray-800">
+                                                <span class="ms-2 text-sm text-gray-600 dark:text-gray-400">{{ $option }}</span>
+                                            </label>
+                                        @endforeach
+                                    </div>
+                                    @error('penyebab_dasar') <span class="text-red-500 text-sm mt-1">{{ $message }}</span> @enderror
                                 </div>
 
-                                @if($penyebab_dasar)
+                                @if(!empty($penyebab_dasar))
                                 <div class="md:col-span-2">
                                     <x-input-label for="penjelasan_penyebab_dasar" :value="__('Penjelasan Penyebab Dasar')" />
                                     <textarea wire:model="penjelasan_penyebab_dasar" id="penjelasan_penyebab_dasar" rows="3" class="block mt-1 w-full border-gray-300 dark:border-gray-700 dark:bg-gray-900 dark:text-gray-300 focus:border-indigo-500 dark:focus:border-indigo-600 focus:ring-indigo-500 dark:focus:ring-indigo-600 rounded-md shadow-sm"></textarea>

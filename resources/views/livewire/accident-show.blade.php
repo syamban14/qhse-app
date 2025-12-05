@@ -41,7 +41,18 @@
                                 <div class="space-y-3 text-sm">
                                     <div>
                                         <p class="font-semibold text-gray-600 dark:text-gray-400">Penyebab Dasar:</p>
-                                        <p class="text-gray-800 dark:text-gray-200">{{ $accident->penyebab_dasar ?: '-' }}</p>
+                                        <p class="text-gray-800 dark:text-gray-200">
+                                            @php
+                                                $penyebabDasar = $accident->penyebab_dasar;
+                                                $displayPenyebabDasar = '-';
+                                                if (is_array($penyebabDasar) && !empty($penyebabDasar)) {
+                                                    $displayPenyebabDasar = implode(', ', $penyebabDasar);
+                                                } elseif (is_string($penyebabDasar) && !empty($penyebabDasar)) {
+                                                    $displayPenyebabDasar = $penyebabDasar; // For old data
+                                                }
+                                            @endphp
+                                            {{ $displayPenyebabDasar }}
+                                        </p>
                                     </div>
                                     @if($accident->penjelasan_penyebab_dasar)
                                     <div>

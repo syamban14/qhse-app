@@ -73,7 +73,12 @@ class AccidentEdit extends Component
         $this->accident_types = $accident->accident_types ?? [];
 
         // Populate analysis fields
-        $this->penyebab_dasar = $accident->penyebab_dasar;
+        $penyebab = $accident->penyebab_dasar;
+        if (is_string($penyebab)) {
+            $this->penyebab_dasar = [$penyebab]; // Convert old string data to an array
+        } else {
+            $this->penyebab_dasar = $penyebab ?? []; // Ensure it's an array, not null
+        }
         $this->penjelasan_penyebab_dasar = $accident->penjelasan_penyebab_dasar;
         $this->penyebab_langsung = $accident->penyebab_langsung;
         $this->kondisi_tidak_aman = $accident->kondisi_tidak_aman;
@@ -142,7 +147,7 @@ class AccidentEdit extends Component
             'accident_types' => 'nullable|array',
             'lost_work_days' => 'nullable|integer|min:0',
             'photo_path' => 'nullable|image|max:1024',
-            'penyebab_dasar' => 'nullable|string',
+            'penyebab_dasar' => 'nullable|array',
             'penjelasan_penyebab_dasar' => 'nullable|string',
             'penyebab_langsung' => 'nullable|string',
             'kondisi_tidak_aman' => 'nullable|string',
