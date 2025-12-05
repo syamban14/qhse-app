@@ -22,8 +22,8 @@ class ViolationCreateDriver extends Component
     public $selectedKaryawanName;
 
     // Properti untuk form
-    public $karyawan_id;
-    public $user_id; // untuk disimpan di tabel violations
+    public $violator_id;
+    public $violator_type;
     public $violation_date;
     public $violation_category;
     public $description;
@@ -50,8 +50,8 @@ class ViolationCreateDriver extends Component
     {
         return [
             'driver_type' => 'required|in:dumptruck,trailer,project',
-            'karyawan_id' => 'required',
-            'user_id' => 'required',
+            'violator_id' => 'required',
+            'violator_type' => 'required|string',
             'violation_date' => 'required|date',
             'description' => 'required|string|min:10',
             'sanction' => 'nullable|string',
@@ -98,19 +98,8 @@ class ViolationCreateDriver extends Component
     {
         $driver = Driver::with('karyawan')->find($driverId);
         if ($driver && $driver->karyawan) {
-            // Find the related user via the Eloquent relationship on the Karyawan model
-            $user = $driver->karyawan->user;
-
-            if (!$user) {
-                // Handle jika user tidak ditemukan, mungkin dengan notifikasi error
-                $this->addError('driver_search', 'Driver ini tidak memiliki akun pengguna aplikasi yang aktif.');
-                $this->searchResults = [];
-                $this->driver_search = '';
-                return;
-            }
-
-            $this->karyawan_id = $driver->karyawan->id;
-            $this->user_id = $user->id; // simpan user_id yang berelasi
+            $this->violator_id = $driver->id;
+            $this->violator_type = Driver::class;
             $this->selectedKaryawanName = $driver->karyawan->nama_karyawan . ' (' . $driver->karyawan->payroll_id . ')';
             $this->searchResults = [];
             $this->driver_search = '';
@@ -119,8 +108,8 @@ class ViolationCreateDriver extends Component
 
     public function changeKaryawan()
     {
-        $this->karyawan_id = null;
-        $this->user_id = null;
+        $this->violator_id = null;
+        $this->violator_type = null;
         $this->selectedKaryawanName = null;
         $this->driver_search = '';
         $this->searchResults = [];
@@ -137,7 +126,8 @@ class ViolationCreateDriver extends Component
         }
 
         Violation::create([
-            'user_id' => $this->user_id, // Menyimpan ID user yang terkait dengan driver
+            'violator_id' => $this->violator_id,
+            'violator_type' => $this->violator_type,
             'location' => $this->location,
             'violation_date' => $this->violation_date,
             'description' => $fullDescription,

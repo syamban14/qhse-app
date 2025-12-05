@@ -44,7 +44,7 @@
                                 @endif
                             </div>
                         @endif
-                        <x-input-error :messages="$errors->get('karyawan_id')" class="mt-2" />
+                        <x-input-error :messages="$errors->get('violator_id')" class="mt-2" />
                         <x-input-error :messages="$errors->get('driver_type')" class="mt-2" />
                         <x-input-error :messages="$errors->get('driver_search')" class="mt-2" />
                     </div>
@@ -52,7 +52,7 @@
             </div>
             
             {{-- Violation Details Section (Visible only after driver is selected) --}}
-            @if($karyawan_id)
+            @if($violator_id)
             <div class="p-4 sm:p-8 bg-white dark:bg-qhse-neutral-dark shadow sm:rounded-lg">
                 <form wire:submit.prevent="save">
                     <div class="max-w-full">
