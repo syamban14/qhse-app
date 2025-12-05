@@ -208,7 +208,7 @@ class AccidentCreate extends Component
             $photoPath = $this->photo_path->store('photos', 'public');
         }
 
-        Accident::create([
+        $accident = Accident::create([
             'user_id' => Auth::id(), // Reporter ID
             'employee_payroll_id' => $this->employee_payroll_id,
             'employee_name' => $this->employee_name,
@@ -239,7 +239,7 @@ class AccidentCreate extends Component
 
         session()->flash('message', 'Laporan kecelakaan berhasil dibuat.');
 
-        return redirect()->route('accidents.index');
+        return redirect()->route('accidents.show', $accident);
     }
 
     public function render()

@@ -25,6 +25,7 @@ class CarCreate extends Component
 
     // User list for PIC dropdown
     public $users = [];
+    public $newlyCreatedCarId = null;
 
     protected $rules = [
         'number' => 'required|string|unique:corrective_action_reports,number',
@@ -100,10 +101,12 @@ class CarCreate extends Component
                     'status' => 'open', // Default status for new actions
                 ]);
             }
+
+            $this->newlyCreatedCarId = $car->id;
         });
 
         session()->flash('message', 'Corrective Action Report berhasil dibuat.');
-        return redirect()->route('cars.index'); // Redirect to list for now
+        return redirect()->route('cars.show', $this->newlyCreatedCarId);
     }
 
 

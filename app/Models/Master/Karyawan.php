@@ -26,6 +26,13 @@ class Karyawan extends Model
     protected $table = 'm_karyawan';
 
     /**
+     * The relationships that should always be loaded.
+     *
+     * @var array
+     */
+    protected $with = ['jabatan', 'division'];
+
+    /**
      * Get the user that owns the karyawan record.
      */
     public function user()

@@ -14,10 +14,13 @@ class CarShow extends Component
     {
         $this->car = $car->load('rootCauseAnalysis.accident', 'actions');
 
-        // Eager load user data for the main CAR object
-        $this->car->issuer;
-        $this->car->mrApprover;
-        $this->car->directorApprover;
+        // Manually load nested relationships for user objects fetched via service/accessor
+        if ($this->car->issuer) {
+            $this->car->issuer->load('karyawan.jabatan', 'karyawan.division');
+        }
+        if ($this->car->rootCauseAnalysis->accident->user) {
+            $this->car->rootCauseAnalysis->accident->user->load('karyawan.jabatan', 'karyawan.division');
+        }
 
         // Eager load user data for all associated actions
         $picIds = $this->car->actions->pluck('responsible_user_id')->unique()->filter()->toArray();

@@ -34,6 +34,8 @@ class Accident extends Model
         'penyebab_langsung',
         'kondisi_tidak_aman',
         'kesimpulan',
+        'status',
+        'cancellation_reason',
     ];
 
     protected $casts = [

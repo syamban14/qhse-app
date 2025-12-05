@@ -8,12 +8,29 @@
     <div class="py-12">
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
             <div class="bg-white dark:bg-gray-800 overflow-hidden shadow-xl sm:rounded-lg p-6">
+                @if (session()->has('success'))
+                    <div class="mb-4 font-medium text-sm text-green-600 dark:text-green-400">
+                        {{ session('success') }}
+                    </div>
+                @endif
+                @if (session()->has('error'))
+                    <div class="mb-4 font-medium text-sm text-red-600 dark:text-red-400">
+                        {{ session('error') }}
+                    </div>
+                @endif
+
                 <div class="flex justify-between items-center mb-6">
                     <h3 class="text-lg font-medium text-gray-900 dark:text-gray-100">
                         Daftar Unit
                     </h3>
-                    <div class="flex space-x-4">
+                    <div class="flex space-x-4 items-center">
                         <input wire:model.live.debounce.300ms="search" type="search" placeholder="Cari unit..." class="border-gray-300 dark:border-gray-700 dark:bg-gray-900 dark:text-gray-300 focus:border-indigo-500 dark:focus:border-indigo-600 focus:ring-indigo-500 dark:focus:ring-indigo-600 rounded-md shadow-sm w-full sm:w-64" />
+                        
+                        <label for="showTrashed" class="flex items-center space-x-2 text-sm text-gray-600 dark:text-gray-300">
+                            <input id="showTrashed" type="checkbox" wire:model.live="showTrashed" class="rounded border-gray-300 text-indigo-600 shadow-sm focus:ring-indigo-500">
+                            <span>Tampilkan yang Dihapus</span>
+                        </label>
+                        
                         <x-button wire:click="create()">
                             {{ __('Tambah Unit') }}
                         </x-button>
@@ -33,6 +50,9 @@
                                 <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">
                                     Kategori
                                 </th>
+                                <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">
+                                    Status
+                                </th>
                                 <th scope="col" class="relative px-6 py-3">
                                     <span class="sr-only">Actions</span>
                                 </th>
@@ -50,18 +70,38 @@
                                     <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500 dark:text-gray-300">
                                         {{ $unit->kategori }}
                                     </td>
+                                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500 dark:text-gray-300">
+                                        @if ($unit->trashed())
+                                            <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-red-100 text-red-800">
+                                                Dihapus
+                                            </span>
+                                        @else
+                                            <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-green-100 text-green-800">
+                                                Aktif
+                                            </span>
+                                        @endif
+                                    </td>
                                     <td class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
-                                        <x-button wire:click="edit({{ $unit->id }})">
-                                            Edit
-                                        </x-button>
-                                        <x-danger-button wire:click="delete({{ $unit->id }})" wire:confirm="Apakah Anda yakin ingin menghapus data ini?">
-                                            Delete
-                                        </x-danger-button>
+                                        @if ($unit->trashed())
+                                            <x-button wire:click="restoreUnit({{ $unit->id }})" wire:confirm="Apakah Anda yakin ingin memulihkan data unit ini?">
+                                                Pulihkan
+                                            </x-button>
+                                            <x-danger-button wire:click="forceDeleteUnit({{ $unit->id }})" wire:confirm="PERINGATAN! Anda yakin ingin MENGHAPUS PERMANEN data unit ini? Tindakan ini tidak dapat dibatalkan.">
+                                                Hapus Permanen
+                                            </x-danger-button>
+                                        @else
+                                            <x-button wire:click="edit({{ $unit->id }})">
+                                                Edit
+                                            </x-button>
+                                            <x-danger-button wire:click="delete({{ $unit->id }})" wire:confirm="Apakah Anda yakin ingin menghapus data ini?">
+                                                Hapus
+                                            </x-danger-button>
+                                        @endif
                                     </td>
                                 </tr>
                             @empty
                                 <tr>
-                                    <td colspan="4" class="px-6 py-4 whitespace-nowrap text-center text-sm text-gray-500 dark:text-gray-300">
+                                    <td colspan="5" class="px-6 py-4 whitespace-nowrap text-center text-sm text-gray-500 dark:text-gray-300">
                                         Tidak ada data unit yang ditemukan.
                                     </td>
                                 </tr>

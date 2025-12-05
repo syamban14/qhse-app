@@ -71,14 +71,14 @@
                         <div class="w-1/2 border-r border-black dark:border-gray-500 p-2 space-y-2">
                             <h4 class="font-bold text-center">TEMUAN MASALAH</h4>
                             <div class="space-y-1">
-                                <p><strong>Dilaporkan / disampaikan oleh:</strong> {{ $car->rootCauseAnalysis->accident->user->name ?? 'N/A' }}</p>
-                                <p><strong>Nama Jabatan & Divisi / Perusahaan:</strong> -</p>
+                                <p><strong>Dilaporkan / disampaikan oleh:</strong> {{ $car->rootCauseAnalysis->accident->employee_name ?? 'N/A' }}</p>
+                                <p><strong>Nama Jabatan & Divisi / Perusahaan:</strong> {{ $car->rootCauseAnalysis->accident->user?->karyawan?->jabatan?->title_name ?? '' }} / {{ $car->rootCauseAnalysis->accident->division ?? '' }}</p>
                                 <p><strong>Hari, Tanggal & Jam:</strong> {{ $car->rootCauseAnalysis->accident->accident_date->format('l, d F Y H:i') }}</p>
                             </div>
                             <hr class="dark:border-gray-600">
                             <div class="space-y-1">
                                 <p><strong>Didaftarkan oleh:</strong> {{ $car->issuer->name ?? 'N/A' }}</p>
-                                <p><strong>Nama Jabatan & Divisi / Perusahaan:</strong> -</p>
+                                <p><strong>Nama Jabatan & Divisi / Perusahaan:</strong> {{ $car->issuer?->karyawan?->jabatan?->title_name ?? '' }} / {{ $car->issuer?->karyawan?->division?->div_name ?? '' }}</p>
                                 <p><strong>Hari, Tanggal & Jam:</strong> {{ $car->created_at->format('l, d F Y H:i') }}</p>
                             </div>
                         </div>

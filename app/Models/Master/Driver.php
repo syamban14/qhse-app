@@ -4,9 +4,13 @@ namespace App\Models\Master;
 
 use Illuminate\Database\Eloquent\Model;
 use App\Models\DriverPerformanceLog;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Driver extends Model
 {
+    use HasFactory, SoftDeletes;
+
     /**
      * The connection name for the model.
      *

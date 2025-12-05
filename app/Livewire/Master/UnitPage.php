@@ -16,12 +16,18 @@ class UnitPage extends Component
     public $no_unit, $jenis_unit, $kategori;
 
     public $search = '';
+    public $showTrashed = false; // New property to toggle showing trashed units
 
     public function render()
     {
-        $units = Unit::search($this->search)
-            ->orderBy('no_unit', 'asc')
-            ->paginate(10);
+        $unitsQuery = Unit::search($this->search)
+            ->orderBy('no_unit', 'asc');
+
+        if ($this->showTrashed) {
+            $unitsQuery->onlyTrashed(); // Show only trashed units
+        }
+
+        $units = $unitsQuery->paginate(10);
 
         return view('livewire.master.unit-page', [
             'units' => $units,
@@ -82,9 +88,34 @@ class UnitPage extends Component
     {
         try {
             Unit::find($id)->delete();
-            session()->flash('success', 'Data Unit berhasil dihapus.');
+            session()->flash('success', 'Data Unit berhasil dihapus (soft delete).');
+            $this->resetPage(); // Refresh pagination
         } catch (\Exception $e) {
-            session()->flash('error', 'Gagal menghapus data unit. Kemungkinan data ini digunakan di tempat lain.');
+            session()->flash('error', 'Gagal menghapus data unit. ' . $e->getMessage());
+        }
+    }
+
+    // New method to restore a soft-deleted unit
+    public function restoreUnit($id)
+    {
+        try {
+            Unit::withTrashed()->find($id)->restore();
+            session()->flash('success', 'Data Unit berhasil dipulihkan.');
+            $this->resetPage(); // Refresh pagination
+        } catch (\Exception $e) {
+            session()->flash('error', 'Gagal memulihkan data unit. ' . $e->getMessage());
+        }
+    }
+
+    // New method to force delete a unit
+    public function forceDeleteUnit($id)
+    {
+        try {
+            Unit::withTrashed()->find($id)->forceDelete();
+            session()->flash('success', 'Data Unit berhasil dihapus permanen.');
+            $this->resetPage(); // Refresh pagination
+        } catch (\Exception $e) {
+            session()->flash('error', 'Gagal menghapus permanen data unit. ' . $e->getMessage());
         }
     }
 }

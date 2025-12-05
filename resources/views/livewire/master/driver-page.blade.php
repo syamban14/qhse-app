@@ -9,12 +9,26 @@
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
             <!-- Main Content -->
             <div class="bg-white dark:bg-gray-800 overflow-hidden shadow-xl sm:rounded-lg p-6">
+                @if (session()->has('success'))
+                    <div class="mb-4 font-medium text-sm text-green-600 dark:text-green-400">
+                        {{ session('success') }}
+                    </div>
+                @endif
+                @if (session()->has('error'))
+                    <div class="mb-4 font-medium text-sm text-red-600 dark:text-red-400">
+                        {{ session('error') }}
+                    </div>
+                @endif
                 <div class="flex justify-between items-center mb-6">
                     <h3 class="text-lg font-medium text-gray-900 dark:text-gray-100">
                         Daftar Driver
                     </h3>
-                    <div class="flex space-x-4">
+                    <div class="flex space-x-4 items-center">
                         <input wire:model.live.debounce.300ms="search" type="search" placeholder="Cari driver..." class="border-gray-300 dark:border-gray-700 dark:bg-gray-900 dark:text-gray-300 focus:border-indigo-500 dark:focus:border-indigo-600 focus:ring-indigo-500 dark:focus:ring-indigo-600 rounded-md shadow-sm w-full sm:w-64" />
+                        <label for="showTrashed" class="flex items-center space-x-2 text-sm text-gray-600 dark:text-gray-300">
+                            <input id="showTrashed" type="checkbox" wire:model.live="showTrashed" class="rounded border-gray-300 text-indigo-600 shadow-sm focus:ring-indigo-500">
+                            <span>Tampilkan yang Dihapus</span>
+                        </label>
                         <x-button wire:click="create()">
                             {{ __('Tambah Driver') }}
                         </x-button>
@@ -44,13 +58,28 @@
                                     <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500 dark:text-gray-300">{{ $driver->sim_type }}</td>
                                     <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500 dark:text-gray-300">{{ $driver->sim_expiry_date ? \Carbon\Carbon::parse($driver->sim_expiry_date)->format('d M Y') : '' }}</td>
                                     <td class="px-6 py-4 whitespace-nowrap">
-                                        <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full {{ $driver->status == 'active' ? 'bg-green-100 text-green-800' : 'bg-red-100 text-red-800' }}">
-                                            {{ $driver->status }}
-                                        </span>
+                                        @if($driver->trashed())
+                                            <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-red-100 text-red-800">
+                                                Dihapus
+                                            </span>
+                                        @else
+                                            <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full {{ $driver->status == 'active' ? 'bg-green-100 text-green-800' : 'bg-red-100 text-red-800' }}">
+                                                {{ ucfirst($driver->status) }}
+                                            </span>
+                                        @endif
                                     </td>
                                     <td class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
-                                        <x-button wire:click="edit({{ $driver->id }})">Edit</x-button>
-                                        <x-danger-button wire:click="delete({{ $driver->id }})" wire:confirm="Apakah Anda yakin ingin menghapus data ini?">Delete</x-danger-button>
+                                        @if ($driver->trashed())
+                                            <x-button wire:click="restore({{ $driver->id }})" wire:confirm="Apakah Anda yakin ingin memulihkan data driver ini?">
+                                                Pulihkan
+                                            </x-button>
+                                            <x-danger-button wire:click="forceDelete({{ $driver->id }})" wire:confirm="PERINGATAN! Anda yakin ingin MENGHAPUS PERMANEN data driver ini? Tindakan ini tidak dapat dibatalkan.">
+                                                Hapus Permanen
+                                            </x-danger-button>
+                                        @else
+                                            <x-button wire:click="edit({{ $driver->id }})">Edit</x-button>
+                                            <x-danger-button wire:click="delete({{ $driver->id }})" wire:confirm="Apakah Anda yakin ingin menghapus data ini?">Delete</x-danger-button>
+                                        @endif
                                     </td>
                                 </tr>
                             @empty

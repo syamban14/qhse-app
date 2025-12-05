@@ -18,6 +18,7 @@ class DriverPage extends Component
 
     // Search and form state
     public $search = '';
+    public $showTrashed = false;
     public $karyawanSearch = '';
     public $karyawanSearchResults = [];
     public $selectedKaryawanName = '';
@@ -41,7 +42,7 @@ class DriverPage extends Component
 
     public function render()
     {
-        $drivers = Driver::with('karyawan')
+        $driversQuery = Driver::with('karyawan')
             ->where(function($query) {
                 $query->where('driver_category', 'like', '%' . $this->search . '%')
                     ->orWhere('status', 'like', '%' . $this->search . '%')
@@ -49,9 +50,13 @@ class DriverPage extends Component
                         $subQuery->where('nama_karyawan', 'like', '%' . $this->search . '%')
                                  ->orWhere('payroll_id', 'like', '%' . $this->search . '%');
                     });
-            })
-            ->orderBy('created_at', 'desc')
-            ->paginate(10);
+            });
+        
+        if ($this->showTrashed) {
+            $driversQuery->onlyTrashed();
+        }
+
+        $drivers = $driversQuery->orderBy('created_at', 'desc')->paginate(10);
 
         return view('livewire.master.driver-page', compact('drivers'));
     }
@@ -133,8 +138,31 @@ class DriverPage extends Component
         try {
             Driver::find($id)->delete();
             session()->flash('success', 'Data Driver berhasil dihapus.');
+            $this->resetPage();
         } catch (\Exception $e) {
             session()->flash('error', 'Gagal menghapus data driver. Kemungkinan data ini digunakan di tempat lain.');
+        }
+    }
+
+    public function restore($id)
+    {
+        try {
+            Driver::withTrashed()->find($id)->restore();
+            session()->flash('success', 'Data Driver berhasil dipulihkan.');
+            $this->resetPage();
+        } catch (\Exception $e) {
+            session()->flash('error', 'Gagal memulihkan data driver.');
+        }
+    }
+
+    public function forceDelete($id)
+    {
+        try {
+            Driver::withTrashed()->find($id)->forceDelete();
+            session()->flash('success', 'Data Driver berhasil dihapus permanen.');
+            $this->resetPage();
+        } catch (\Exception $e) {
+            session()->flash('error', 'Gagal menghapus permanen data driver.');
         }
     }
 }
