@@ -81,13 +81,18 @@
                             @for ($week = 1; $week <= 5; $week++)
                             <div x-show="activeTab === 'minggu{{ $week }}'" class="mt-4 space-y-4">
                                 {{-- Display existing storing events --}}
-                                @foreach ($storingEvents->where('week_of_month', $week) as $event)
-                                <div class="p-4 border rounded-lg bg-gray-50 dark:bg-gray-700/50">
+                                @forelse ($storingEvents->where('week_of_month', $week) as $event)
+                                <div class="p-4 border rounded-lg bg-gray-50 dark:bg-gray-700/50 text-sm text-gray-700 dark:text-gray-300">
                                     <p><strong>Tanggal:</strong> {{ \Carbon\Carbon::parse($event->event_date)->format('d M Y') }} - {{ \Carbon\Carbon::parse($event->event_time)->format('H:i') }}</p>
+                                    @if($event->driver)
+                                    <p><strong>Driver:</strong> {{ $event->driver->karyawan->nama_karyawan ?? 'N/A' }} ({{ $event->driver->karyawan->payroll_id ?? 'N/A' }})</p>
+                                    @endif
                                     <p><strong>Lokasi:</strong> {{ $event->location }}</p>
                                     <p><strong>Deskripsi:</strong> {{ $event->description }}</p>
                                 </div>
-                                @endforeach
+                                @empty
+                                    <p class="text-sm text-gray-500">Tidak ada temuan storing untuk minggu ini.</p>
+                                @endforelse
                             </div>
                             @endfor
                         </div>
@@ -97,9 +102,20 @@
                              <h4 class="text-md font-medium text-gray-900 dark:text-gray-100">{{ __('Tambah Temuan Storing Baru') }}</h4>
                              <form wire:submit.prevent="addStoringEvent" class="mt-4 grid grid-cols-1 md:grid-cols-2 gap-4">
                                 <div class="col-span-1 md:col-span-2">
-                                    <x-input-label for="newStoring.driver" :value="__('Nama / Payroll ID Driver')" />
-                                    <x-text-input id="newStoring.driver" type="text" class="mt-1 block w-full" wire:model="newStoring.driver" placeholder="Masukkan nama atau Payroll ID Driver (Min. 2 Huruf)" />
-                                    <x-input-error :messages="$errors->get('newStoring.driver')" class="mt-2" />
+                                    <x-input-label for="newStoring.driver_search" :value="__('Nama / Payroll ID Driver')" />
+                                    <div class="relative">
+                                         <x-text-input id="driverSearch" type="text" class="mt-1 block w-full" wire:model.live.debounce.300ms="driverSearch" placeholder="Masukkan nama atau Payroll ID Driver (Min. 2 Huruf)" autocomplete="off" />
+                                         @if(count($driverSearchResults) > 0)
+                                            <ul class="absolute z-10 w-full bg-white border border-gray-300 rounded-md mt-1 max-h-48 overflow-auto">
+                                                @foreach($driverSearchResults as $driver)
+                                                    <li class="px-4 py-2 cursor-pointer hover:bg-gray-100" wire:click="selectDriver({{ $driver->id }}, '{{ addslashes($driver->karyawan->nama_karyawan) }} ({{ $driver->karyawan->payroll_id }})')">
+                                                        {{ $driver->karyawan->nama_karyawan }} ({{ $driver->karyawan->payroll_id }})
+                                                    </li>
+                                                @endforeach
+                                            </ul>
+                                        @endif
+                                    </div>
+                                    <x-input-error :messages="$errors->get('newStoring.driver_id')" class="mt-2" />
                                 </div>
                                 <div>
                                     <x-input-label for="newStoring.event_date" :value="__('Tanggal Kejadian')" />

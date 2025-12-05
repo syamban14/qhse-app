@@ -2,11 +2,14 @@
 
 namespace App\Livewire;
 
+use App\Models\Master\Driver;
+use App\Models\Master\Karyawan;
 use App\Models\Master\Unit as MasterUnit;
 use App\Models\UnitMonthlyReport;
 use App\Models\StoringEvent;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 use Livewire\Component;
 use Livewire\Attributes\Layout; // Import the Layout attribute
 
@@ -37,7 +40,10 @@ class UnitMonthlyReportPage extends Component
         'week_of_month' => 1,
         'location' => '',
         'description' => '',
+        'driver_id' => null,
     ];
+    public $driverSearch = '';
+    public $driverSearchResults = [];
 
     // UI state
     public $activeTab = 'minggu1';
@@ -63,7 +69,6 @@ class UnitMonthlyReportPage extends Component
 
     public function updatedKategori()
     {
-        // This method might not be needed anymore if the category is fixed, but we'll keep it for now.
         $this->loadUnits();
         $this->selectedUnitId = null; // Reset unit selection
         $this->report = null; // Reset report
@@ -91,11 +96,41 @@ class UnitMonthlyReportPage extends Component
         $this->loadReportDetails();
     }
 
+    public function updatedDriverSearch($value)
+    {
+        if (strlen($value) < 2) {
+            $this->driverSearchResults = [];
+            return;
+        }
+
+        $this->driverSearchResults = Driver::with('karyawan')
+            ->whereHas('karyawan', function($query) use ($value) {
+                $query->where(DB::raw('LOWER(nama_karyawan)'), 'like', '%' . strtolower($value) . '%')
+                      ->orWhere('payroll_id', 'like', '%' . $value . '%');
+            })
+            ->limit(5)
+            ->get();
+    }
+
+    public function selectDriver($driverId, $driverName)
+    {
+        $this->newStoring['driver_id'] = $driverId;
+        $this->driverSearch = $driverName;
+        $this->driverSearchResults = [];
+    }
+
+    private function resetDriverSelection()
+    {
+        $this->newStoring['driver_id'] = null;
+        $this->driverSearch = '';
+        $this->driverSearchResults = [];
+    }
+    
     public function loadReportDetails()
     {
         if ($this->report) {
             $this->kilometer = $this->report->kilometer;
-            $this->storingEvents = $this->report->storingEvents()->orderBy('event_date')->get();
+            $this->storingEvents = $this->report->storingEvents()->with('driver.karyawan')->orderBy('event_date')->get();
         }
     }
 
@@ -116,6 +151,7 @@ class UnitMonthlyReportPage extends Component
             'newStoring.event_time' => 'required|date_format:H:i',
             'newStoring.location' => 'required|string|max:255',
             'newStoring.description' => 'required|string',
+            'newStoring.driver_id' => 'nullable|exists:pgsql_master.m_drivers,id'
         ]);
 
         if (!$this->report) {
@@ -125,19 +161,20 @@ class UnitMonthlyReportPage extends Component
 
         // Determine week of month
         $date = Carbon::parse($this->newStoring['event_date']);
-        $this->newStoring['week_of_month'] = $date->weekOfMonth;
-
+        
         $this->report->storingEvents()->create([
             'event_date' => $this->newStoring['event_date'],
             'event_time' => $this->newStoring['event_time'],
-            'week_of_month' => $this->newStoring['week_of_month'],
+            'week_of_month' => $date->weekOfMonth,
             'location' => $this->newStoring['location'],
             'description' => $this->newStoring['description'],
+            'driver_id' => $this->newStoring['driver_id'],
             'user_id' => Auth::id(),
         ]);
 
         // Reset form and reload events
         $this->reset('newStoring');
+        $this->resetDriverSelection();
         $this->newStoring['event_date'] = today()->format('Y-m-d');
         $this->loadReportDetails();
 

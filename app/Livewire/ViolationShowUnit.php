@@ -27,7 +27,7 @@ class ViolationShowUnit extends Component
         
         // Get related report IDs to fetch storing events
         $reportIds = UnitMonthlyReport::where('unit_id', $this->unit->id)->pluck('id');
-        $this->storingEvents = StoringEvent::whereIn('unit_monthly_report_id', $reportIds)->latest('event_date')->get();
+        $this->storingEvents = StoringEvent::whereIn('unit_monthly_report_id', $reportIds)->with('driver.karyawan')->latest('event_date')->get();
         $this->storingEventCount = $this->storingEvents->count();
 
         // Get related accidents

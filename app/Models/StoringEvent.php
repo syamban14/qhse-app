@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Models\Master\Driver;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -18,6 +19,7 @@ class StoringEvent extends Model
         'location',
         'description',
         'user_id',
+        'driver_id',
     ];
 
     protected $casts = [
@@ -32,5 +34,10 @@ class StoringEvent extends Model
     public function user(): BelongsTo
     {
         return $this->belongsTo(User::class, 'user_id', 'id');
+    }
+
+    public function driver(): BelongsTo
+    {
+        return $this->belongsTo(Driver::class, 'driver_id', 'id');
     }
 }
