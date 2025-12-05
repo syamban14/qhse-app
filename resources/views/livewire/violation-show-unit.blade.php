@@ -100,7 +100,9 @@
                             <tr>
                                 <td class="px-4 py-3 whitespace-nowrap text-sm text-gray-600 dark:text-gray-300">{{ \Carbon\Carbon::parse($event->event_date)->format('d M Y') }}</td>
                                 <td class="px-4 py-3 whitespace-nowrap text-sm text-gray-600 dark:text-gray-300">{{ \Carbon\Carbon::parse($event->event_time)->format('H:i') }}</td>
-                                <td class="px-4 py-3 text-sm text-gray-600 dark:text-gray-300">Nama Driver</td>
+                                <td class="px-4 py-3 text-sm text-gray-600 dark:text-gray-300">
+                                    {{ $event->driver?->karyawan?->nama_karyawan ?? 'N/A' }}
+                                </td>
                                 <td class="px-4 py-3 text-sm text-gray-600 dark:text-gray-300">{{ $event->location }}</td>
                                 <td class="px-4 py-3 text-sm text-gray-600 dark:text-gray-300">{{ $event->description }}</td>
                             </tr>
