@@ -9,6 +9,8 @@ class Department extends Model
 {
     use HasFactory;
 
+    protected $guarded = ['id'];
+
     protected $connection = 'pgsql_master';
     protected $table = 'm_dept';
     protected $primaryKey = 'dept_code';

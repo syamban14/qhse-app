@@ -5,6 +5,7 @@ namespace Database\Seeders;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Str;
 
 class UsersTableSeeder extends Seeder
 {
@@ -20,7 +21,7 @@ class UsersTableSeeder extends Seeder
         DB::table('users')->insert([
             [
                 'email' => 'admin@example.com',
-                'password' => Hash::make('password'),
+                'password' => Hash::make(Str::random(10)),
                 'created_at' => now(),
                 'updated_at' => now(),
             ]

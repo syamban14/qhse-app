@@ -9,6 +9,8 @@ class Division extends Model
 {
     use HasFactory;
 
+    protected $guarded = ['id'];
+
     protected $connection = 'pgsql_master';
     protected $table = 'm_division';
     protected $primaryKey = 'div_code';

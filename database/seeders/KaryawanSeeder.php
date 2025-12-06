@@ -10,6 +10,7 @@ use App\Models\Master\Karyawan;
 use App\Models\User;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Str;
 
 class KaryawanSeeder extends Seeder
 {
@@ -108,7 +109,7 @@ class KaryawanSeeder extends Seeder
                     ['email' => $karyawan->email],
                     [
                         'karyawan_id' => $karyawan->id,
-                        'password' => Hash::make('password'), // Default password
+                        'password' => Hash::make(Str::random(10)), // Default password
                         'is_active' => $karyawan->aktif,
                     ]
                 );

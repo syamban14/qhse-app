@@ -32,7 +32,7 @@ class DummyDriverSeeder extends Seeder
             ['email' => 'budi.dumptruck@example.com'],
             [
                 'karyawan_id' => $dumptruckDriver->id,
-                'password' => Hash::make('password'),
+                'password' => Hash::make(Str::random(10)),
                 'is_active' => true,
             ]
         );
@@ -53,7 +53,7 @@ class DummyDriverSeeder extends Seeder
             ['email' => 'citra.project@example.com'],
             [
                 'karyawan_id' => $projectDriver->id,
-                'password' => Hash::make('password'),
+                'password' => Hash::make(Str::random(10)),
                 'is_active' => true,
             ]
         );
@@ -74,7 +74,7 @@ class DummyDriverSeeder extends Seeder
             ['email' => 'dedi.trailer@example.com'],
             [
                 'karyawan_id' => $trailerDriver->id,
-                'password' => Hash::make('password'),
+                'password' => Hash::make(Str::random(10)),
                 'is_active' => true,
             ]
         );

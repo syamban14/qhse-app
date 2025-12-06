@@ -11,6 +11,8 @@ class Karyawan extends Model
 {
     use HasFactory;
 
+    protected $guarded = ['id'];
+
     /**
      * The connection name for the model.
      *

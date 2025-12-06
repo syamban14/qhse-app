@@ -8,6 +8,7 @@ use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Str;
 
 class SyncDriverUsersSeeder extends Seeder
 {
@@ -41,7 +42,7 @@ class SyncDriverUsersSeeder extends Seeder
                 [
                     'name' => $karyawan->nama_karyawan,
                     'email' => strtolower($payrollId) . '@corp.solid.co.id',
-                    'password' => Hash::make('password'), // A secure default password
+                    'password' => Hash::make(Str::random(10)), // A secure default password
                     'is_active' => true,
                 ]
             );
