@@ -9,7 +9,7 @@
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
             
             <!-- KPI Cards -->
-            <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-6">
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-6 mb-6">
                 <div class="bg-white dark:bg-gray-800 overflow-hidden shadow-sm sm:rounded-lg p-6">
                     <h3 class="text-lg font-medium text-gray-500 dark:text-gray-400">Insiden Terbuka</h3>
                     <p class="mt-1 text-3xl font-semibold text-gray-900 dark:text-gray-100">{{ $openIncidentsCount }}</p>
@@ -21,6 +21,15 @@
                 <div class="bg-white dark:bg-gray-800 overflow-hidden shadow-sm sm:rounded-lg p-6">
                     <h3 class="text-lg font-medium text-red-500">Tindakan Lewat Batas</h3>
                     <p class="mt-1 text-3xl font-semibold text-red-600">{{ $overdueActionsCount }}</p>
+                </div>
+                <div class="bg-white dark:bg-gray-800 overflow-hidden shadow-sm sm:rounded-lg p-6">
+                    <h3 class="text-lg font-medium text-gray-500 dark:text-gray-400">Divisi Paling Rawan</h3>
+                    @if ($topDivision)
+                        <p class="mt-1 text-3xl font-semibold text-gray-900 dark:text-gray-100 truncate" title="{{ $topDivision->div_name }}">{{ $topDivision->div_name }}</p>
+                        <p class="text-sm text-gray-500">{{ $topDivision->accident_count }} insiden</p>
+                    @else
+                        <p class="mt-2 text-xl font-semibold text-gray-400">Data tidak tersedia</p>
+                    @endif
                 </div>
             </div>
 

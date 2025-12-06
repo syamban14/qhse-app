@@ -98,8 +98,13 @@
                         <p class="mt-2 text-4xl font-bold">{{ $closedActions }}</p>
                     </div>
                     <div class="bg-white dark:bg-gray-800 overflow-hidden shadow rounded-lg p-6">
-                        <h3 class="text-lg font-medium text-gray-500 dark:text-gray-400">Laporan Observasi Keselamatan</h3>
-                        <p class="mt-2 text-4xl font-bold">{{ $safetyObservations }}</p>
+                        <h3 class="text-lg font-medium text-gray-500 dark:text-gray-400">Divisi Paling Rawan</h3>
+                        @if ($topDivision)
+                            <p class="mt-2 text-2xl font-bold truncate" title="{{ $topDivision->div_name }}">{{ $topDivision->div_name }}</p>
+                            <p class="text-sm text-gray-500">{{ $topDivision->accident_count }} insiden</p>
+                        @else
+                            <p class="mt-2 text-xl font-semibold text-gray-400">Data tidak tersedia</p>
+                        @endif
                     </div>
                     <div class="bg-white dark:bg-gray-800 overflow-hidden shadow rounded-lg p-6">
                         <h3 class="text-lg font-medium text-gray-500 dark:text-gray-400">Tips Keselamatan Hari Ini</h3>
