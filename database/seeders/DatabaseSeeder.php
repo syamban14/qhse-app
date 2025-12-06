@@ -16,7 +16,13 @@ class DatabaseSeeder extends Seeder
     public function run(): void
     {
         $this->call(RolesAndPermissionsSeeder::class);
+        $this->call(MasterDataPermissionsSeeder::class);
+        $this->call(KaryawanSeeder::class);
+        $this->call(MUnitSeeder::class);
         $this->call(AuditTemplateSeeder::class);
+        $this->call(DumptruckDriverSeeder::class);
+        $this->call(SyncDriverUsersSeeder::class);
+
 
         // User::factory(10)->create();
 

@@ -2,8 +2,8 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Incident;
 use App\Models\Action;
+use App\Models\Accident;
 use App\Models\SafetyTip;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -15,7 +15,7 @@ class PublicDashboardController extends Controller
     public function index()
     {
         // KPI Cards
-        $totalIncidents = Incident::count();
+        $totalIncidents = Accident::count();
         $openActions = Action::where('status', 'open')->count();
         $closedActions = Action::where('status', 'closed')->count();
         $safetyObservations = 0; // Placeholder for Leading Indicator
@@ -25,12 +25,12 @@ class PublicDashboardController extends Controller
         $randomSafetyTip = $safetyTip ? $safetyTip->content : 'Selamat datang di dasbor QHSE. Pastikan untuk selalu memprioritaskan keselamatan.';
 
         // Data for Incidents per Month Chart (Last 12 Months)
-        $incidentsByMonth = Incident::select(
-                DB::raw('EXTRACT(YEAR FROM created_at) as year'),
-                DB::raw('EXTRACT(MONTH FROM created_at) as month'),
+        $incidentsByMonth = Accident::select(
+                DB::raw('EXTRACT(YEAR FROM accident_date) as year'),
+                DB::raw('EXTRACT(MONTH FROM accident_date) as month'),
                 DB::raw('count(*) as count')
             )
-            ->where('created_at', '>=', Carbon::now()->subYear())
+            ->where('accident_date', '>=', Carbon::now()->subYear())
             ->groupBy('year', 'month')
             ->orderBy('year', 'asc')
             ->orderBy('month', 'asc')
