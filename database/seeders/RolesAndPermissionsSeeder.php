@@ -7,6 +7,7 @@ use App\Models\User;
 use Spatie\Permission\Models\Role;
 use Spatie\Permission\Models\Permission;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Str;
 
 class RolesAndPermissionsSeeder extends Seeder
 {
@@ -85,7 +86,7 @@ class RolesAndPermissionsSeeder extends Seeder
             ['email' => 'admin@example.com'],
             [
                 'name' => 'Admin User',
-                'password' => Hash::make('password'),
+                'password' => Hash::make(Str::random(10)),
             ]
         );
         $adminUser->assignRole('admin');
@@ -95,7 +96,7 @@ class RolesAndPermissionsSeeder extends Seeder
             ['email' => 'qhse@example.com'],
             [
                 'name' => 'QHSE Manager',
-                'password' => Hash::make('password'),
+                'password' => Hash::make(Str::random(10)),
             ]
         );
         $qhseManagerUser->assignRole('qhse_manager');
@@ -105,7 +106,7 @@ class RolesAndPermissionsSeeder extends Seeder
             ['email' => 'employee@example.com'],
             [
                 'name' => 'Employee User',
-                'password' => Hash::make('password'),
+                'password' => Hash::make(Str::random(10)),
             ]
         );
         $employeeUser->assignRole('employee');
@@ -115,7 +116,7 @@ class RolesAndPermissionsSeeder extends Seeder
             ['email' => 'supervisor@example.com'],
             [
                 'name' => 'Supervisor User',
-                'password' => Hash::make('password'),
+                'password' => Hash::make(Str::random(10)),
             ]
         );
         $supervisorUser->assignRole('supervisor');
@@ -125,7 +126,7 @@ class RolesAndPermissionsSeeder extends Seeder
             ['email' => 'doccontroller@example.com'],
             [
                 'name' => 'Document Controller User',
-                'password' => Hash::make('password'),
+                'password' => Hash::make(Str::random(10)),
             ]
         );
         $docControllerUser->assignRole('document_controller');

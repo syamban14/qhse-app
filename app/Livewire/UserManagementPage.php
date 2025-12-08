@@ -7,6 +7,7 @@ use App\Models\User;
 use App\Models\Master\Role;
 use App\Models\Master\Karyawan;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Str;
 use Livewire\WithPagination;
 use Illuminate\Pagination\LengthAwarePaginator;
 use Illuminate\Support\Collection;
@@ -150,7 +151,7 @@ class UserManagementPage extends Component
             'name' => $karyawan->nama_karyawan,
             'payroll_id' => $karyawan->payroll_id,
             'email' => strtolower($karyawan->payroll_id) . '@bcs-logistics.co.id',
-            'password' => Hash::make('password'),
+            'password' => Hash::make(Str::random(10)),
             'is_active' => true,
         ]);
 

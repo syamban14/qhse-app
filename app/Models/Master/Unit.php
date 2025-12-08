@@ -48,8 +48,8 @@ class Unit extends Model
             return $query;
         }
 
-        return $query->where('no_unit', 'like', '%' . $search . '%')
-            ->orWhere('jenis_unit', 'like', '%' . $search . '%')
-            ->orWhere('kategori', 'like', '%' . $search . '%');
+        return $query->where('no_unit', 'ilike', '%' . $search . '%')
+            ->orWhere('jenis_unit', 'ilike', '%' . $search . '%')
+            ->orWhere('kategori', 'ilike', '%' . $search . '%');
     }
 }

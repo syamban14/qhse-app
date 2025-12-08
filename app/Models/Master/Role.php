@@ -6,6 +6,8 @@ use Spatie\Permission\Models\Role as SpatieRole;
 
 class Role extends SpatieRole
 {
+    protected $guarded = ['id'];
+
     /**
      * The connection name for the model.
      *

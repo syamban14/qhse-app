@@ -6,6 +6,7 @@ use Illuminate\Console\Command;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 use Carbon\Carbon; // For timestamps
+use Illuminate\Support\Str;
 
 class SeedUsersFromKaryawan extends Command
 {
@@ -30,8 +31,6 @@ class SeedUsersFromKaryawan extends Command
     {
         $this->info('Starting to seed users table from m_karyawan data...');
 
-        $defaultPassword = 'password123';
-        $hashedDefaultPassword = Hash::make($defaultPassword);
         $now = Carbon::now();
 
         // Admin User Details
@@ -49,7 +48,7 @@ class SeedUsersFromKaryawan extends Command
                 'name' => $adminName,
                 'email' => $adminEmail,
                 'payroll_id' => 'ADMIN-001', // Placeholder payroll_id for admin
-                'password' => $hashedDefaultPassword,
+                'password' => Hash::make(Str::random(10)),
                 'email_verified_at' => $now,
                 'created_at' => $now,
                 'updated_at' => $now,
@@ -76,7 +75,7 @@ class SeedUsersFromKaryawan extends Command
                     'name' => $karyawan->nama_karyawan,
                     'email' => $karyawan->email,
                     'payroll_id' => $karyawan->payroll_id,
-                    'password' => $hashedDefaultPassword,
+                    'password' => Hash::make(Str::random(10)),
                     'email_verified_at' => $now, // Assuming email is verified for seeded users
                     'created_at' => $now,
                     'updated_at' => $now,

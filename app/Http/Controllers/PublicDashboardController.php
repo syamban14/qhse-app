@@ -2,8 +2,9 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Incident;
 use App\Models\Action;
+use App\Models\Accident;
+use App\Models\SafetyTip;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Carbon\Carbon;
@@ -14,33 +15,22 @@ class PublicDashboardController extends Controller
     public function index()
     {
         // KPI Cards
-        $totalIncidents = Incident::count();
+        $totalIncidents = Accident::count();
         $openActions = Action::where('status', 'open')->count();
         $closedActions = Action::where('status', 'closed')->count();
         $safetyObservations = 0; // Placeholder for Leading Indicator
 
-        // Safety Tip
-        $safetyTips = [
-            "Selalu gunakan alat pelindung diri (APD) yang sesuai untuk pekerjaan Anda.",
-            "Pastikan area kerja Anda bersih dan terorganisir untuk mencegah kecelakaan.",
-            "Laporkan setiap kondisi tidak aman atau nyaris celaka kepada atasan Anda.",
-            "Ikuti semua prosedur keselamatan dan operasional standar (SOP).",
-            "Lakukan pemeliharaan rutin pada peralatan untuk memastikan fungsinya optimal.",
-            "Berhati-hatilah saat mengangkat benda berat, gunakan teknik yang benar.",
-            "Jangan pernah mengambil jalan pintas dalam prosedur keselamatan.",
-            "Pahami rute evakuasi darurat dan lokasi titik kumpul.",
-            "Jaga komunikasi yang baik dengan rekan kerja untuk koordinasi keselamatan.",
-            "Periksa label bahan kimia sebelum menggunakannya dan pahami penanganannya.",
-        ];
-        $randomSafetyTip = Arr::random($safetyTips);
+        // Safety Tip from Database
+        $safetyTip = SafetyTip::where('is_active', true)->inRandomOrder()->first();
+        $randomSafetyTip = $safetyTip ? $safetyTip->content : 'Selamat datang di dasbor QHSE. Pastikan untuk selalu memprioritaskan keselamatan.';
 
         // Data for Incidents per Month Chart (Last 12 Months)
-        $incidentsByMonth = Incident::select(
-                DB::raw('EXTRACT(YEAR FROM created_at) as year'),
-                DB::raw('EXTRACT(MONTH FROM created_at) as month'),
+        $incidentsByMonth = Accident::select(
+                DB::raw('EXTRACT(YEAR FROM accident_date) as year'),
+                DB::raw('EXTRACT(MONTH FROM accident_date) as month'),
                 DB::raw('count(*) as count')
             )
-            ->where('created_at', '>=', Carbon::now()->subYear())
+            ->where('accident_date', '>=', Carbon::now()->subYear())
             ->groupBy('year', 'month')
             ->orderBy('year', 'asc')
             ->orderBy('month', 'asc')
@@ -70,6 +60,64 @@ class PublicDashboardController extends Controller
         $actionStatusLabels = $actionsByStatus->keys();
         $actionStatusData = $actionsByStatus->values();
 
+        // New KPI: Division with Most Accidents (Two-Query Approach)
+        $topDivision = null;
+        try {
+            // 1. Get accident counts per payroll_id from the app DB
+            $accidentCounts = DB::connection('pgsql')->table('accidents')
+                ->select('employee_payroll_id', DB::raw('COUNT(id) as accident_count'))
+                ->whereNotNull('employee_payroll_id')
+                ->groupBy('employee_payroll_id')
+                ->get();
+
+            if ($accidentCounts->isNotEmpty()) {
+                $payrollIds = $accidentCounts->pluck('employee_payroll_id');
+
+                // 2. Get the division for each of those payroll_ids from the master DB
+                $karyawanDivisions = DB::connection('pgsql_master')->table('m_karyawan')
+                    ->whereIn('payroll_id', $payrollIds)
+                    ->pluck('div_id', 'payroll_id');
+
+                // 3. Aggregate counts per division in PHP
+                $accidentsPerDivision = [];
+                foreach ($accidentCounts as $acc) {
+                    $payrollId = $acc->employee_payroll_id;
+                    $divId = $karyawanDivisions[$payrollId] ?? null;
+
+                    if ($divId) {
+                        if (!isset($accidentsPerDivision[$divId])) {
+                            $accidentsPerDivision[$divId] = 0;
+                        }
+                        $accidentsPerDivision[$divId] += $acc->accident_count;
+                    }
+                }
+
+                if (!empty($accidentsPerDivision)) {
+                    // 4. Find the top division ID and its count
+                    arsort($accidentsPerDivision);
+                    $topDivisionId = key($accidentsPerDivision);
+                    $topDivisionCount = reset($accidentsPerDivision);
+
+                    // 5. Get the name of the top division
+                    $topDivisionName = DB::connection('pgsql_master')->table('m_division')
+                        ->where('div_code', $topDivisionId)
+                        ->value('div_name');
+                    
+                    // 6. Assemble the final object
+                    if ($topDivisionName) {
+                        $topDivision = (object)[
+                            'div_name' => $topDivisionName,
+                            'accident_count' => $topDivisionCount,
+                        ];
+                    }
+                }
+            }
+        } catch (\Exception $e) {
+            // Log the error or handle it gracefully
+            \Log::error('Failed to calculate top division KPI: ' . $e->getMessage());
+        }
+
+
         return view('welcome', compact(
             'totalIncidents',
             'openActions',
@@ -79,7 +127,8 @@ class PublicDashboardController extends Controller
             'incidentLabels',
             'incidentData',
             'actionStatusLabels',
-            'actionStatusData'
+            'actionStatusData',
+            'topDivision'
         ));
     }
 }

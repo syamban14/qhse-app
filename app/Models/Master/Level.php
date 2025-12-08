@@ -9,6 +9,8 @@ class Level extends Model
 {
     use HasFactory;
 
+    protected $guarded = ['id'];
+
     protected $connection = 'pgsql_master';
     protected $table = 'm_level';
     protected $primaryKey = 'level_code';

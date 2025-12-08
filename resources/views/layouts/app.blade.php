@@ -16,13 +16,22 @@
 
         @livewireStyles
     </head>
-    <body class="font-sans antialiased">
-        <div class="min-h-screen bg-qhse-neutral-light">
+    <body class="font-sans antialiased"
+        x-data="{ darkMode: localStorage.getItem('theme') === 'dark' }"
+        x-init="$watch('darkMode', val => {
+            localStorage.setItem('theme', val ? 'dark' : 'light');
+            if (val) {
+                document.documentElement.classList.add('dark');
+            } else {
+                document.documentElement.classList.remove('dark');
+            }
+        })">
+        <div class="min-h-screen bg-qhse-neutral-light dark:bg-qhse-neutral-dark">
             @include('layouts.navigation')
 
             <!-- Page Heading -->
             @isset($header)
-                <header class="bg-white shadow">
+                <header class="bg-white dark:bg-gray-800 shadow">
                     <div class="max-w-7xl mx-auto py-6 px-4 sm:px-6 lg:px-8">
                         {{ $header }}
                     </div>

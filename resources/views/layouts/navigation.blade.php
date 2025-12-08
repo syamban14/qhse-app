@@ -1,4 +1,4 @@
-<nav x-data="{ open: false }" class="bg-qhse-neutral-light dark:bg-qhse-neutral-dark border-b border-gray-100 dark:border-gray-700 sticky top-0 z-50 shadow-md">
+<nav x-data="{ open: false }" class="bg-white dark:bg-gray-800 border-b border-gray-100 dark:border-gray-700 sticky top-0 z-50 shadow-md">
     <!-- Primary Navigation Menu -->
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div class="flex justify-between h-16">
@@ -20,7 +20,7 @@
                     <div class="hidden sm:flex sm:items-center sm:ms-6">
                         <x-dropdown align="left" width="48">
                             <x-slot name="trigger">
-                                <button class="inline-flex items-center px-3 py-2 border border-transparent text-sm leading-4 font-medium rounded-md text-qhse-neutral-dark dark:text-qhse-neutral-light bg-qhse-neutral-light dark:bg-qhse-neutral-dark hover:text-qhse-primary dark:hover:text-qhse-secondary focus:outline-none transition ease-in-out duration-150">
+                                <button class="inline-flex items-center px-3 py-2 border border-transparent text-sm leading-4 font-medium rounded-md text-gray-700 dark:text-gray-300 bg-white dark:bg-gray-800 hover:text-qhse-primary dark:hover:text-qhse-primary focus:outline-none transition ease-in-out duration-150">
                                     <div>Manajemen Insiden</div>
                                     <div class="ms-1">
                                         <svg class="fill-current h-4 w-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20">
@@ -48,9 +48,9 @@
 
                     <!-- Manajemen Risiko Dropdown -->
                     <div class="hidden sm:flex sm:items-center sm:ms-6">
-                        <x-dropdown align="left" width="w-max" contentClasses="p-4 bg-white dark:bg-qhse-neutral-dark">
+                        <x-dropdown align="left" width="w-max" contentClasses="p-4 bg-white dark:bg-gray-800">
                             <x-slot name="trigger">
-                                <button class="inline-flex items-center px-3 py-2 border border-transparent text-sm leading-4 font-medium rounded-md text-qhse-neutral-dark dark:text-qhse-neutral-light bg-qhse-neutral-light dark:bg-qhse-neutral-dark hover:text-qhse-primary dark:hover:text-qhse-secondary focus:outline-none transition ease-in-out duration-150">
+                                <button class="inline-flex items-center px-3 py-2 border border-transparent text-sm leading-4 font-medium rounded-md text-gray-700 dark:text-gray-300 bg-white dark:bg-gray-800 hover:text-qhse-primary dark:hover:text-qhse-primary focus:outline-none transition ease-in-out duration-150">
                                     <div>Manajemen Risiko</div>
                                     <div class="ms-1">
                                         <svg class="fill-current h-4 w-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20">
@@ -61,31 +61,31 @@
                             </x-slot>
                             <x-slot name="content">
                                 <div class="grid grid-cols-3 gap-4">
-                                    <a href="{{ route('manajemen-risiko.training') }}" class="block px-4 py-2 text-start text-sm leading-5 text-gray-700 hover:bg-gray-100 focus:outline-none focus:bg-gray-100 transition duration-150 ease-in-out">
+                                    <a href="{{ route('manajemen-risiko.training') }}" class="block px-4 py-2 text-start text-sm leading-5 text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 focus:outline-none focus:bg-gray-100 transition duration-150 ease-in-out">
                                         {{ __('Training') }}
                                     </a>
-                                    <a href="{{ route('manajemen-risiko.fgd') }}" class="block px-4 py-2 text-start text-sm leading-5 text-gray-700 hover:bg-gray-100 focus:outline-none focus:bg-gray-100 transition duration-150 ease-in-out">
+                                    <a href="{{ route('manajemen-risiko.fgd') }}" class="block px-4 py-2 text-start text-sm leading-5 text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 focus:outline-none focus:bg-gray-100 transition duration-150 ease-in-out">
                                         {{ __('FGD') }}
                                     </a>
-                                    <a href="{{ route('manajemen-risiko.inspection') }}" class="block px-4 py-2 text-start text-sm leading-5 text-gray-700 hover:bg-gray-100 focus:outline-none focus:bg-gray-100 transition duration-150 ease-in-out">
+                                    <a href="{{ route('manajemen-risiko.inspection') }}" class="block px-4 py-2 text-start text-sm leading-5 text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 focus:outline-none focus:bg-gray-100 transition duration-150 ease-in-out">
                                         {{ __('Inspection') }}
                                     </a>
-                                    <a href="{{ route('manajemen-risiko.safety-patrol') }}" class="block px-4 py-2 text-start text-sm leading-5 text-gray-700 hover:bg-gray-100 focus:outline-none focus:bg-gray-100 transition duration-150 ease-in-out">
+                                    <a href="{{ route('manajemen-risiko.safety-patrol') }}" class="block px-4 py-2 text-start text-sm leading-5 text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 focus:outline-none focus:bg-gray-100 transition duration-150 ease-in-out">
                                         {{ __('Safety Patrol') }}
                                     </a>
-                                    <a href="{{ route('manajemen-risiko.safety-observation-tour') }}" class="block px-4 py-2 text-start text-sm leading-5 text-gray-700 hover:bg-gray-100 focus:outline-none focus:bg-gray-100 transition duration-150 ease-in-out whitespace-nowrap">
+                                    <a href="{{ route('manajemen-risiko.safety-observation-tour') }}" class="block px-4 py-2 text-start text-sm leading-5 text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 focus:outline-none focus:bg-gray-100 transition duration-150 ease-in-out whitespace-nowrap">
                                         {{ __('Safety Observation Tour') }}
                                     </a>
-                                    <a href="{{ route('manajemen-risiko.capa') }}" class="block px-4 py-2 text-start text-sm leading-5 text-gray-700 hover:bg-gray-100 focus:outline-none focus:bg-gray-100 transition duration-150 ease-in-out">
+                                    <a href="{{ route('manajemen-risiko.capa') }}" class="block px-4 py-2 text-start text-sm leading-5 text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 focus:outline-none focus:bg-gray-100 transition duration-150 ease-in-out">
                                         {{ __('CAPA') }}
                                     </a>
-                                    <a href="{{ route('manajemen-risiko.nearmiss-report') }}" class="block px-4 py-2 text-start text-sm leading-5 text-gray-700 hover:bg-gray-100 focus:outline-none focus:bg-gray-100 transition duration-150 ease-in-out">
+                                    <a href="{{ route('manajemen-risiko.nearmiss-report') }}" class="block px-4 py-2 text-start text-sm leading-5 text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 focus:outline-none focus:bg-gray-100 transition duration-150 ease-in-out">
                                         {{ __('Nearmiss Report') }}
                                     </a>
-                                    <a href="{{ route('manajemen-risiko.audit-report') }}" class="block px-4 py-2 text-start text-sm leading-5 text-gray-700 hover:bg-gray-100 focus:outline-none focus:bg-gray-100 transition duration-150 ease-in-out">
+                                    <a href="{{ route('manajemen-risiko.audit-report') }}" class="block px-4 py-2 text-start text-sm leading-5 text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 focus:outline-none focus:bg-gray-100 transition duration-150 ease-in-out">
                                         {{ __('Audit Report') }}
                                     </a>
-                                    <a href="{{ route('manajemen-risiko.apd') }}" class="block px-4 py-2 text-start text-sm leading-5 text-gray-700 hover:bg-gray-100 focus:outline-none focus:bg-gray-100 transition duration-150 ease-in-out">
+                                    <a href="{{ route('manajemen-risiko.apd') }}" class="block px-4 py-2 text-start text-sm leading-5 text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 focus:outline-none focus:bg-gray-100 transition duration-150 ease-in-out">
                                         {{ __('APD') }}
                                     </a>
                                 </div>
@@ -98,7 +98,7 @@
                     <div class="hidden sm:flex sm:items-center sm:ms-6">
                         <x-dropdown align="left" width="48">
                             <x-slot name="trigger">
-                                <button class="inline-flex items-center px-3 py-2 border border-transparent text-sm leading-4 font-medium rounded-md text-qhse-neutral-dark dark:text-qhse-neutral-light bg-qhse-neutral-light dark:bg-qhse-neutral-dark hover:text-qhse-primary dark:hover:text-qhse-secondary focus:outline-none transition ease-in-out duration-150">
+                                <button class="inline-flex items-center px-3 py-2 border border-transparent text-sm leading-4 font-medium rounded-md text-gray-700 dark:text-gray-300 bg-white dark:bg-gray-800 hover:text-qhse-primary dark:hover:text-qhse-primary focus:outline-none transition ease-in-out duration-150">
                                     <div>Data Master</div>
                                     <div class="ms-1">
                                         <svg class="fill-current h-4 w-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20">
@@ -118,22 +118,6 @@
                         </x-dropdown>
                     </div>
                     @endcan
-
-                    {{-- @can('view all incidents')
-                        <x-nav-link :href="route('incidents.index')" :active="request()->routeIs('incidents.*')">
-                            Insiden
-                        </x-nav-link>
-                    @endcan
-                    @can('manage actions')
-                        <x-nav-link :href="route('actions.index')" :active="request()->routeIs('actions.*')">
-                            Tindakan (CAPA)
-                        </x-nav-link>
-                    @endcan
-                    @can('view all audits')
-                        <x-nav-link :href="route('audits.index')" :active="request()->routeIs('audits.*')">
-                            Audit & Inspeksi
-                        </x-nav-link>
-                    @endcan --}}
                 </div>
             </div>
 
@@ -141,13 +125,13 @@
             <div class="hidden sm:flex sm:items-center sm:ms-6">
                 <x-dropdown align="right" width="48">
                     <x-slot name="trigger">
-                        <button class="relative inline-flex items-center px-3 py-2 border border-transparent text-sm leading-4 font-medium rounded-md text-qhse-neutral-dark dark:text-qhse-neutral-light bg-qhse-neutral-light dark:bg-qhse-neutral-dark hover:text-qhse-primary dark:hover:text-qhse-secondary focus:outline-none transition ease-in-out duration-150">
+                        <button class="relative inline-flex items-center px-3 py-2 border border-transparent text-sm leading-4 font-medium rounded-md text-gray-700 dark:text-gray-300 bg-white dark:bg-gray-800 hover:text-qhse-primary dark:hover:text-qhse-primary focus:outline-none transition ease-in-out duration-150">
                             <div>{{ Auth::user()->name }}</div>
 
                             @if($unreadNotificationsCount > 0)
                                 <span class="absolute top-1 right-1 flex h-2 w-2">
-                                    <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-red-400 opacity-75"></span>
-                                    <span class="relative inline-flex rounded-full h-2 w-2 bg-red-500"></span>
+                                    <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-qhse-danger opacity-75"></span>
+                                    <span class="relative inline-flex rounded-full h-2 w-2 bg-qhse-danger"></span>
                                 </span>
                             @endif
 
@@ -164,7 +148,7 @@
                             <div class="flex justify-between items-center">
                                 <span>{{ __('Inbox') }}</span>
                                 @if($unreadNotificationsCount > 0)
-                                    <span class="ms-2 inline-flex items-center justify-center px-2 py-1 text-xs font-bold leading-none text-red-100 bg-red-600 rounded-full">{{ $unreadNotificationsCount }}</span>
+                                    <span class="ms-2 inline-flex items-center justify-center px-2 py-1 text-xs font-bold leading-none text-red-100 bg-qhse-danger rounded-full">{{ $unreadNotificationsCount }}</span>
                                 @endif
                             </div>
                         </x-dropdown-link>
@@ -174,6 +158,9 @@
                             </x-dropdown-link>
                             <x-dropdown-link :href="route('announcements.create')">
                                 {{ __('Buat Pengumuman') }}
+                            </x-dropdown-link>
+                            <x-dropdown-link :href="route('safety-tips.index')">
+                                {{ __('Manajemen Safety Tips') }}
                             </x-dropdown-link>
                         @endcan
                         <x-dropdown-link :href="route('profile.edit')">
@@ -196,7 +183,7 @@
 
             <!-- Hamburger -->
             <div class="-me-2 flex items-center sm:hidden">
-                <button @click="open = ! open" class="inline-flex items-center justify-center p-2 rounded-md text-gray-400 hover:text-gray-500 hover:bg-gray-100 focus:outline-none focus:bg-gray-100 focus:text-gray-500 transition duration-150 ease-in-out">
+                <button @click="open = ! open" class="inline-flex items-center justify-center p-2 rounded-md text-gray-400 dark:text-gray-300 hover:text-gray-500 dark:hover:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-700 focus:outline-none focus:bg-gray-100 dark:focus:bg-gray-700 focus:text-gray-500 dark:focus:text-gray-400 transition duration-150 ease-in-out">
                     <svg class="h-6 w-6" stroke="currentColor" fill="none" viewBox="0 0 24 24">
                         <path :class="{'hidden': open, 'inline-flex': ! open }" class="inline-flex" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
                         <path :class="{'hidden': ! open, 'inline-flex': open }" class="hidden" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
@@ -212,127 +199,71 @@
             <x-responsive-nav-link :href="route('dashboard')" :active="request()->routeIs('dashboard')">
                 {{ __('Dashboard') }}
             </x-responsive-nav-link>
-            {{-- @can('view all incidents')
-                <x-responsive-nav-link :href="route('incidents.index')" :active="request()->routeIs('incidents.*')">
-                    Insiden
-                </x-responsive-nav-link>
-            @endcan
-            @can('manage actions')
-                <x-responsive-nav-link :href="route('actions.index')" :active="request()->routeIs('actions.*')">
-                    Tindakan (CAPA)
-                </x-responsive-nav-link>
-            @endcan
-            @can('view all audits')
-                <x-responsive-nav-link :href="route('audits.index')" :active="request()->routeIs('audits.*')">
-                    Audit & Inspeksi
-                </x-responsive-nav-link>
-            @endcan --}}
-
-            <!-- Responsive Manajemen Insiden Links -->
-            <div class="pt-4 pb-1 border-t border-gray-200">
-                <div class="px-4">
-                    <div class="font-medium text-base text-gray-800">Manajemen Insiden</div>
-                </div>
-                <div class="mt-3 space-y-1">
-                    <x-responsive-nav-link :href="route('accidents.index')">
-                        {{ __('Accidents') }}
-                    </x-responsive-nav-link>
-                    <x-responsive-nav-link :href="route('violations.index')">
-                        {{ __('Pelanggaran') }}
-                    </x-responsive-nav-link>
-                    <x-responsive-nav-link :href="route('rca.index')">
-                        {{ __('Root Cause Analysis') }}
-                    </x-responsive-nav-link>
-                    <x-responsive-nav-link :href="route('cars.index')">
-                        {{ __('Corrective Actions (CAR)') }}
-                    </x-responsive-nav-link>
-                </div>
+        </div>
+        
+        <!-- Responsive Navigation Links Sections -->
+        <div class="pt-4 pb-1 border-t border-gray-200 dark:border-gray-600">
+            <div class="px-4">
+                <div class="font-medium text-base text-gray-800 dark:text-gray-200">Manajemen Insiden</div>
             </div>
-
-            <!-- Responsive Manajemen Risiko Links -->
-            <div class="pt-4 pb-1 border-t border-gray-200">
-                <div class="px-4">
-                    <div class="font-medium text-base text-gray-800">Manajemen Risiko</div>
-                </div>
-                <div class="mt-3 space-y-1">
-                    <x-responsive-nav-link :href="route('manajemen-risiko.training')">
-                        {{ __('Training') }}
-                    </x-responsive-nav-link>
-                    <x-responsive-nav-link :href="route('manajemen-risiko.fgd')">
-                        {{ __('FGD (Forum Group Discussion)') }}
-                    </x-responsive-nav-link>
-                    <x-responsive-nav-link :href="route('manajemen-risiko.inspection')">
-                        {{ __('Inspection') }}
-                    </x-responsive-nav-link>
-                    <x-responsive-nav-link :href="route('manajemen-risiko.safety-patrol')">
-                        {{ __('Safety Patrol') }}
-                    </x-responsive-nav-link>
-                    <x-responsive-nav-link :href="route('manajemen-risiko.safety-observation-tour')">
-                        {{ __('Safety Observation Tour') }}
-                    </x-responsive-nav-link>
-                    <x-responsive-nav-link :href="route('manajemen-risiko.capa')">
-                        {{ __('CAPA') }}
-                    </x-responsive-nav-link>
-                    <x-responsive-nav-link :href="route('manajemen-risiko.nearmiss-report')">
-                        {{ __('Nearmiss Report') }}
-                    </x-responsive-nav-link>
-                    <x-responsive-nav-link :href="route('manajemen-risiko.audit-report')">
-                        {{ __('Audit Report') }}
-                    </x-responsive-nav-link>
-                    <x-responsive-nav-link :href="route('manajemen-risiko.apd')">
-                        {{ __('APD') }}
-                    </x-responsive-nav-link>
-                </div>
+            <div class="mt-3 space-y-1">
+                <x-responsive-nav-link :href="route('accidents.index')">{{ __('Accidents') }}</x-responsive-nav-link>
+                <x-responsive-nav-link :href="route('violations.index')">{{ __('Pelanggaran') }}</x-responsive-nav-link>
+                <x-responsive-nav-link :href="route('rca.index')">{{ __('Root Cause Analysis') }}</x-responsive-nav-link>
+                <x-responsive-nav-link :href="route('cars.index')">{{ __('Corrective Actions (CAR)') }}</x-responsive-nav-link>
             </div>
-
-            <!-- Responsive Data Master Links -->
-            @can('manage-master-data')
-            <div class="pt-4 pb-1 border-t border-gray-200">
-                <div class="px-4">
-                    <div class="font-medium text-base text-gray-800">Data Master</div>
-                </div>
-                <div class="mt-3 space-y-1">
-                    <x-responsive-nav-link :href="route('master.units.index')" :active="request()->routeIs('master.units.index')">
-                        {{ __('Unit') }}
-                    </x-responsive-nav-link>
-                    <x-responsive-nav-link :href="route('master.drivers.index')" :active="request()->routeIs('master.drivers.index')">
-                        {{ __('Driver') }}
-                    </x-responsive-nav-link>
-                </div>
-            </div>
-            @endcan
         </div>
 
-        <!-- Responsive Settings Options -->
-        <div class="pt-4 pb-1 border-t border-gray-200">
+        <div class="pt-4 pb-1 border-t border-gray-200 dark:border-gray-600">
             <div class="px-4">
-                <div class="font-medium text-base text-gray-800">{{ Auth::user()->name }}</div>
+                <div class="font-medium text-base text-gray-800 dark:text-gray-200">Manajemen Risiko</div>
+            </div>
+            <div class="mt-3 space-y-1">
+                 <a href="{{ route('manajemen-risiko.training') }}" class="block ps-3 pe-4 py-2 border-l-4 border-transparent text-base font-medium text-gray-600 dark:text-gray-400 hover:text-gray-800 dark:hover:text-gray-200 hover:bg-gray-50 dark:hover:bg-gray-700 hover:border-gray-300 dark:hover:border-gray-600 focus:outline-none focus:text-gray-800 dark:focus:text-gray-200 focus:bg-gray-50 dark:focus:bg-gray-700 focus:border-gray-300 dark:focus:border-gray-600 transition duration-150 ease-in-out">{{ __('Training') }}</a>
+                 <a href="{{ route('manajemen-risiko.fgd') }}" class="block ps-3 pe-4 py-2 border-l-4 border-transparent text-base font-medium text-gray-600 dark:text-gray-400 hover:text-gray-800 dark:hover:text-gray-200 hover:bg-gray-50 dark:hover:bg-gray-700 hover:border-gray-300 dark:hover:border-gray-600 focus:outline-none focus:text-gray-800 dark:focus:text-gray-200 focus:bg-gray-50 dark:focus:bg-gray-700 focus:border-gray-300 dark:focus:border-gray-600 transition duration-150 ease-in-out">{{ __('FGD') }}</a>
+                 <a href="{{ route('manajemen-risiko.inspection') }}" class="block ps-3 pe-4 py-2 border-l-4 border-transparent text-base font-medium text-gray-600 dark:text-gray-400 hover:text-gray-800 dark:hover:text-gray-200 hover:bg-gray-50 dark:hover:bg-gray-700 hover:border-gray-300 dark:hover:border-gray-600 focus:outline-none focus:text-gray-800 dark:focus:text-gray-200 focus:bg-gray-50 dark:focus:bg-gray-700 focus:border-gray-300 dark:focus:border-gray-600 transition duration-150 ease-in-out">{{ __('Inspection') }}</a>
+                 <a href="{{ route('manajemen-risiko.safety-patrol') }}" class="block ps-3 pe-4 py-2 border-l-4 border-transparent text-base font-medium text-gray-600 dark:text-gray-400 hover:text-gray-800 dark:hover:text-gray-200 hover:bg-gray-50 dark:hover:bg-gray-700 hover:border-gray-300 dark:hover:border-gray-600 focus:outline-none focus:text-gray-800 dark:focus:text-gray-200 focus:bg-gray-50 dark:focus:bg-gray-700 focus:border-gray-300 dark:focus:border-gray-600 transition duration-150 ease-in-out">{{ __('Safety Patrol') }}</a>
+                 <a href="{{ route('manajemen-risiko.safety-observation-tour') }}" class="block ps-3 pe-4 py-2 border-l-4 border-transparent text-base font-medium text-gray-600 dark:text-gray-400 hover:text-gray-800 dark:hover:text-gray-200 hover:bg-gray-50 dark:hover:bg-gray-700 hover:border-gray-300 dark:hover:border-gray-600 focus:outline-none focus:text-gray-800 dark:focus:text-gray-200 focus:bg-gray-50 dark:focus:bg-gray-700 focus:border-gray-300 dark:focus:border-gray-600 transition duration-150 ease-in-out">{{ __('Safety Observation Tour') }}</a>
+                 <a href="{{ route('manajemen-risiko.capa') }}" class="block ps-3 pe-4 py-2 border-l-4 border-transparent text-base font-medium text-gray-600 dark:text-gray-400 hover:text-gray-800 dark:hover:text-gray-200 hover:bg-gray-50 dark:hover:bg-gray-700 hover:border-gray-300 dark:hover:border-gray-600 focus:outline-none focus:text-gray-800 dark:focus:text-gray-200 focus:bg-gray-50 dark:focus:bg-gray-700 focus:border-gray-300 dark:focus:border-gray-600 transition duration-150 ease-in-out">{{ __('CAPA') }}</a>
+                 <a href="{{ route('manajemen-risiko.nearmiss-report') }}" class="block ps-3 pe-4 py-2 border-l-4 border-transparent text-base font-medium text-gray-600 dark:text-gray-400 hover:text-gray-800 dark:hover:text-gray-200 hover:bg-gray-50 dark:hover:bg-gray-700 hover:border-gray-300 dark:hover:border-gray-600 focus:outline-none focus:text-gray-800 dark:focus:text-gray-200 focus:bg-gray-50 dark:focus:bg-gray-700 focus:border-gray-300 dark:focus:border-gray-600 transition duration-150 ease-in-out">{{ __('Nearmiss Report') }}</a>
+                 <a href="{{ route('manajemen-risiko.audit-report') }}" class="block ps-3 pe-4 py-2 border-l-4 border-transparent text-base font-medium text-gray-600 dark:text-gray-400 hover:text-gray-800 dark:hover:text-gray-200 hover:bg-gray-50 dark:hover:bg-gray-700 hover:border-gray-300 dark:hover:border-gray-600 focus:outline-none focus:text-gray-800 dark:focus:text-gray-200 focus:bg-gray-50 dark:focus:bg-gray-700 focus:border-gray-300 dark:focus:border-gray-600 transition duration-150 ease-in-out">{{ __('Audit Report') }}</a>
+                 <a href="{{ route('manajemen-risiko.apd') }}" class="block ps-3 pe-4 py-2 border-l-4 border-transparent text-base font-medium text-gray-600 dark:text-gray-400 hover:text-gray-800 dark:hover:text-gray-200 hover:bg-gray-50 dark:hover:bg-gray-700 hover:border-gray-300 dark:hover:border-gray-600 focus:outline-none focus:text-gray-800 dark:focus:text-gray-200 focus:bg-gray-50 dark:focus:bg-gray-700 focus:border-gray-300 dark:focus:border-gray-600 transition duration-150 ease-in-out">{{ __('APD') }}</a>
+            </div>
+        </div>
+
+        @can('manage-master-data')
+        <div class="pt-4 pb-1 border-t border-gray-200 dark:border-gray-600">
+            <div class="px-4">
+                <div class="font-medium text-base text-gray-800 dark:text-gray-200">Data Master</div>
+            </div>
+            <div class="mt-3 space-y-1">
+                <x-responsive-nav-link :href="route('master.units.index')">{{ __('Unit') }}</x-responsive-nav-link>
+                <x-responsive-nav-link :href="route('master.drivers.index')">{{ __('Driver') }}</x-responsive-nav-link>
+            </div>
+        </div>
+        @endcan
+
+        <!-- Responsive Settings Options -->
+        <div class="pt-4 pb-1 border-t border-gray-200 dark:border-gray-600">
+            <div class="px-4">
+                <div class="font-medium text-base text-gray-800 dark:text-gray-200">{{ Auth::user()->name }}</div>
                 <div class="font-medium text-sm text-gray-500">{{ Auth::user()->email }}</div>
             </div>
 
             <div class="mt-3 space-y-1">
-                <x-responsive-nav-link :href="route('inbox.index')">
-                    {{ __('Inbox') }}
-                </x-responsive-nav-link>
+                <x-responsive-nav-link :href="route('inbox.index')">{{ __('Inbox') }}</x-responsive-nav-link>
                 @can('manage users')
-                    <x-responsive-nav-link :href="route('users.index')">
-                        {{ __('Manajemen Pengguna') }}
-                    </x-responsive-nav-link>
-                    <x-responsive-nav-link :href="route('announcements.create')">
-                        {{ __('Buat Pengumuman') }}
-                    </x-responsive-nav-link>
+                    <x-responsive-nav-link :href="route('users.index')">{{ __('Manajemen Pengguna') }}</x-responsive-nav-link>
+                    <x-responsive-nav-link :href="route('announcements.create')">{{ __('Buat Pengumuman') }}</x-responsive-nav-link>
+                    <x-responsive-nav-link :href="route('safety-tips.index')">{{ __('Manajemen Safety Tips') }}</x-responsive-nav-link>
                 @endcan
-                <x-responsive-nav-link :href="route('profile.edit')">
-                    {{ __('Profile') }}
-                </x-responsive-nav-link>
+                <x-responsive-nav-link :href="route('profile.edit')">{{ __('Profile') }}</x-responsive-nav-link>
 
                 <!-- Authentication -->
                 <form method="POST" action="{{ route('logout') }}">
                     @csrf
-
                     <x-responsive-nav-link :href="route('logout')"
-                            onclick="event.preventDefault();
-                                        this.closest('form').submit();">
+                            onclick="event.preventDefault(); this.closest('form').submit();">
                         {{ __('Log Out') }}
                     </x-responsive-nav-link>
                 </form>
@@ -340,4 +271,3 @@
         </div>
     </div>
 </nav>
-

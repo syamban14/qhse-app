@@ -5,6 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use App\Services\UserService; // Import UserService
+use App\Models\Accident;
 
 class Action extends Model
 {
@@ -26,7 +27,7 @@ class Action extends Model
 
     public function incident(): BelongsTo
     {
-        return $this->belongsTo(Incident::class);
+        return $this->belongsTo(Accident::class, 'incident_id');
     }
 
     public function getPicAttribute()

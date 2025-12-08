@@ -9,6 +9,8 @@ class Title extends Model
 {
     use HasFactory;
 
+    protected $guarded = ['id'];
+
     protected $connection = 'pgsql_master';
     protected $table = 'm_title';
     protected $primaryKey = 'title_code';

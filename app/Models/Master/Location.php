@@ -9,6 +9,8 @@ class Location extends Model
 {
     use HasFactory;
 
+    protected $guarded = ['id'];
+
     protected $connection = 'pgsql_master';
     protected $table = 'm_lokasi';
     protected $primaryKey = 'loc_code';
