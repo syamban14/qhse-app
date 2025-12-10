@@ -44,11 +44,11 @@ class DriverPage extends Component
     {
         $driversQuery = Driver::with('karyawan')
             ->where(function($query) {
-                $query->where('driver_category', 'like', '%' . $this->search . '%')
-                    ->orWhere('status', 'like', '%' . $this->search . '%')
+                $query->where('driver_category', 'ilike', '%' . $this->search . '%')
+                    ->orWhere('status', 'ilike', '%' . $this->search . '%')
                     ->orWhereHas('karyawan', function ($subQuery) {
-                        $subQuery->where('nama_karyawan', 'like', '%' . $this->search . '%')
-                                 ->orWhere('payroll_id', 'like', '%' . $this->search . '%');
+                        $subQuery->where('nama_karyawan', 'ilike', '%' . $this->search . '%')
+                                 ->orWhere('payroll_id', 'ilike', '%' . $this->search . '%');
                     });
             });
         
@@ -69,8 +69,8 @@ class DriverPage extends Component
         }
 
         $this->karyawanSearchResults = Karyawan::where(function ($query) use ($value) {
-                $query->where('nama_karyawan', 'like', '%' . $value . '%')
-                      ->orWhere('payroll_id', 'like', '%' . $value . '%');
+                $query->where('nama_karyawan', 'ilike', '%' . $value . '%')
+                      ->orWhere('payroll_id', 'ilike', '%' . $value . '%');
             })
             ->whereDoesntHave('driver') // Only show employees who are not already drivers
             ->limit(5)

@@ -60,8 +60,10 @@ class PublicDashboardController extends Controller
         $actionStatusLabels = $actionsByStatus->keys();
         $actionStatusData = $actionsByStatus->values();
 
-        // New KPI: Division with Most Accidents (Two-Query Approach)
+        // New KPI & Chart: Division with Most Accidents
         $topDivision = null;
+        $divisionAccidentLabels = [];
+        $divisionAccidentData = [];
         try {
             // 1. Get accident counts per payroll_id from the app DB
             $accidentCounts = DB::connection('pgsql')->table('accidents')
@@ -93,28 +95,34 @@ class PublicDashboardController extends Controller
                 }
 
                 if (!empty($accidentsPerDivision)) {
-                    // 4. Find the top division ID and its count
                     arsort($accidentsPerDivision);
-                    $topDivisionId = key($accidentsPerDivision);
-                    $topDivisionCount = reset($accidentsPerDivision);
 
-                    // 5. Get the name of the top division
-                    $topDivisionName = DB::connection('pgsql_master')->table('m_division')
-                        ->where('div_code', $topDivisionId)
-                        ->value('div_name');
-                    
-                    // 6. Assemble the final object
+                    // 4. Get Top Division for KPI Card
+                    $topDivisionId = key($accidentsPerDivision);
+                    $topDivisionName = DB::connection('pgsql_master')->table('m_division')->where('div_code', $topDivisionId)->value('div_name');
                     if ($topDivisionName) {
                         $topDivision = (object)[
                             'div_name' => $topDivisionName,
-                            'accident_count' => $topDivisionCount,
+                            'accident_count' => $accidentsPerDivision[$topDivisionId],
                         ];
+                    }
+
+                    // 5. Prepare data for the Top 5 Divisions Chart
+                    $top5Divisions = array_slice($accidentsPerDivision, 0, 5, true);
+                    $top5DivisionIds = array_keys($top5Divisions);
+                    
+                    $divisionNames = DB::connection('pgsql_master')->table('m_division')
+                        ->whereIn('div_code', $top5DivisionIds)
+                        ->pluck('div_name', 'div_code');
+
+                    foreach ($top5Divisions as $divId => $count) {
+                        $divisionAccidentLabels[] = $divisionNames[$divId] ?? 'Unknown';
+                        $divisionAccidentData[] = $count;
                     }
                 }
             }
         } catch (\Exception $e) {
-            // Log the error or handle it gracefully
-            \Log::error('Failed to calculate top division KPI: ' . $e->getMessage());
+            \Log::error('Failed to calculate division accident data: ' . $e->getMessage());
         }
 
 
@@ -128,7 +136,9 @@ class PublicDashboardController extends Controller
             'incidentData',
             'actionStatusLabels',
             'actionStatusData',
-            'topDivision'
+            'topDivision',
+            'divisionAccidentLabels',
+            'divisionAccidentData'
         ));
     }
 }

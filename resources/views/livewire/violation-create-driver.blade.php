@@ -87,6 +87,15 @@
                                 <x-input-error :messages="$errors->get('violation_category')" class="mt-2" />
                             </div>
 
+                            {{-- Nearmiss Report Alindo (Conditional) --}}
+                            @if ($driver_type === 'trailer')
+                                <div class="col-span-2">
+                                    <x-input-label for="nearmiss_report_alindo" value="Nearmiss Report Alindo" />
+                                    <x-text-input type="number" wire:model="nearmiss_report_alindo" id="nearmiss_report_alindo" class="block mt-1 w-full" />
+                                    <x-input-error :messages="$errors->get('nearmiss_report_alindo')" class="mt-2" />
+                                </div>
+                            @endif
+
                             {{-- Deskripsi --}}
                             <div class="col-span-2">
                                 <x-input-label for="description" value="Deskripsi Pelanggaran" />

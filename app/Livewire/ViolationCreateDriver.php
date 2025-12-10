@@ -29,6 +29,7 @@ class ViolationCreateDriver extends Component
     public $description;
     public $sanction;
     public $location;
+    public $nearmiss_report_alindo;
 
     // Hardcoded violation categories from user's CSV
     public $violationCategories = [
@@ -57,6 +58,7 @@ class ViolationCreateDriver extends Component
             'sanction' => 'nullable|string',
             'location' => 'required|string',
             'violation_category' => 'required|string',
+            'nearmiss_report_alindo' => 'nullable|numeric|min:0',
         ];
     }
 
@@ -132,6 +134,7 @@ class ViolationCreateDriver extends Component
             'violation_date' => $this->violation_date,
             'description' => $fullDescription,
             'rule_broken' => $this->violation_category,
+            'nearmiss_report_alindo' => $this->nearmiss_report_alindo,
         ]);
 
         session()->flash('success', 'Data pelanggaran berhasil disimpan.');

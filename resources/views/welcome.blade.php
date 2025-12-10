@@ -125,6 +125,11 @@
                         <canvas id="actionsStatusChart"></canvas>
                     </div>
                 </div>
+                 <!-- New Chart for Top 5 Divisions -->
+                 <div class="mt-8 bg-white dark:bg-gray-800 overflow-hidden shadow rounded-lg p-6">
+                    <h3 class="text-lg font-medium mb-4">Top 5 Divisi Rawan Kecelakaan</h3>
+                    <canvas id="divisionAccidentsChart"></canvas>
+                </div>
             </div>
         </main>
 
@@ -201,6 +206,53 @@
                     }
                 }
             });
+
+            // Chart for Top 5 Divisions by Accident
+            @if(!empty($divisionAccidentLabels) && !empty($divisionAccidentData))
+                const divisionAccidentsCtx = document.getElementById('divisionAccidentsChart').getContext('2d');
+                new Chart(divisionAccidentsCtx, {
+                    type: 'bar', // Horizontal bar chart
+                    data: {
+                        labels: @json($divisionAccidentLabels),
+                        datasets: [{
+                            label: 'Jumlah Kecelakaan',
+                            data: @json($divisionAccidentData),
+                            backgroundColor: [
+                                'rgba(255, 99, 132, 0.5)',
+                                'rgba(255, 159, 64, 0.5)',
+                                'rgba(255, 205, 86, 0.5)',
+                                'rgba(75, 192, 192, 0.5)',
+                                'rgba(54, 162, 235, 0.5)'
+                            ],
+                            borderColor: [
+                                'rgba(255, 99, 132, 1)',
+                                'rgba(255, 159, 64, 1)',
+                                'rgba(255, 205, 86, 1)',
+                                'rgba(75, 192, 192, 1)',
+                                'rgba(54, 162, 235, 1)'
+                            ],
+                            borderWidth: 1
+                        }]
+                    },
+                    options: {
+                        indexAxis: 'y', // This makes the bar chart horizontal
+                        responsive: true,
+                        plugins: {
+                            legend: {
+                                display: false
+                            }
+                        },
+                        scales: {
+                            x: {
+                                beginAtZero: true,
+                                ticks: {
+                                    precision: 0
+                                }
+                            }
+                        }
+                    }
+                });
+            @endif
         });
     </script>
 

@@ -13,12 +13,15 @@
 
         <!-- Scripts -->
         @vite(['resources/css/app.css', 'resources/js/app.js'])
+        
+        <!-- Chart.js from CDN -->
+        <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
         @livewireStyles
     </head>
     <body class="font-sans antialiased"
         x-data="{ darkMode: localStorage.getItem('theme') === 'dark' }"
-        x-init="$watch('darkMode', val => {
+        x-init="$watch('darkMode', val => { 
             localStorage.setItem('theme', val ? 'dark' : 'light');
             if (val) {
                 document.documentElement.classList.add('dark');
@@ -62,3 +65,4 @@
         @stack('scripts')
     </body>
 </html>
+

@@ -49,6 +49,12 @@
                 </div>
             </div>
 
+            <!-- New Chart for Top 5 Divisions -->
+            <div class="bg-white dark:bg-gray-800 overflow-hidden shadow-sm sm:rounded-lg p-6 mb-6">
+                <h3 class="text-xl font-semibold mb-4 text-gray-900 dark:text-gray-100">Top 5 Divisi Rawan Kecelakaan</h3>
+                <canvas id="divisionAccidentsChart"></canvas>
+            </div>
+
             <!-- My Pending Actions Table -->
             <div class="bg-white dark:bg-gray-800 overflow-hidden shadow-sm sm:rounded-lg">
                 <div class="p-6 text-gray-900 dark:text-gray-100">
@@ -105,7 +111,6 @@
     </div>
 
     @push('scripts')
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script>
         document.addEventListener('DOMContentLoaded', function () {
             // Incidents by Month Chart
@@ -162,6 +167,53 @@
                     options: {
                         responsive: true,
                         maintainAspectRatio: false,
+                    }
+                });
+            }
+            
+            // Chart for Top 5 Divisions by Accident
+            const divisionAccidentsCtx = document.getElementById('divisionAccidentsChart');
+            if (divisionAccidentsCtx && @json($divisionAccidentLabels).length > 0) {
+                new Chart(divisionAccidentsCtx, {
+                    type: 'bar',
+                    data: {
+                        labels: @json($divisionAccidentLabels),
+                        datasets: [{
+                            label: 'Jumlah Kecelakaan',
+                            data: @json($divisionAccidentData),
+                            backgroundColor: [
+                                'rgba(255, 99, 132, 0.5)',
+                                'rgba(255, 159, 64, 0.5)',
+                                'rgba(255, 205, 86, 0.5)',
+                                'rgba(75, 192, 192, 0.5)',
+                                'rgba(54, 162, 235, 0.5)'
+                            ],
+                            borderColor: [
+                                'rgba(255, 99, 132, 1)',
+                                'rgba(255, 159, 64, 1)',
+                                'rgba(255, 205, 86, 1)',
+                                'rgba(75, 192, 192, 1)',
+                                'rgba(54, 162, 235, 1)'
+                            ],
+                            borderWidth: 1
+                        }]
+                    },
+                    options: {
+                        indexAxis: 'y', // Horizontal bar chart
+                        responsive: true,
+                        plugins: {
+                            legend: {
+                                display: false
+                            }
+                        },
+                        scales: {
+                            x: {
+                                beginAtZero: true,
+                                ticks: {
+                                    precision: 0
+                                }
+                            }
+                        }
                     }
                 });
             }
